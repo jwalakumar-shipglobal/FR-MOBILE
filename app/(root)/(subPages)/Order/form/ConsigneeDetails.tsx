@@ -1,11 +1,11 @@
-import {
-  personalDataDefaultValue,
-  personalDataschema,
-} from "@/(Schema)/CSBIVSchema";
 import ADDRESS_FIELDS, {
   BILLING_FIELDS,
   PERSONAL_DETAILS,
 } from "@/lib/Mock/CSBIVData";
+import {
+  personalDataDefaultValue,
+  personalDataschema,
+} from "@/Schema/CSBIVSchema";
 import postPrivate, { getPublic } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
 // import { OrdersDeatils } from "@/app/Zustand/useStore";

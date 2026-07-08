@@ -1,6 +1,12 @@
-import { Ionicons } from "@expo/vector-icons";
 import { DrawerActions } from "@react-navigation/native";
 import { Tabs } from "expo-router";
+import {
+  LayoutDashboard,
+  LayoutGrid,
+  Menu,
+  Package,
+  Users,
+} from "lucide-react-native";
 import React from "react";
 
 export default function TabsLayout() {
@@ -11,7 +17,7 @@ export default function TabsLayout() {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <LayoutDashboard color={color} size={size} />
           ),
         }}
       />
@@ -21,7 +27,7 @@ export default function TabsLayout() {
         options={{
           title: "Order",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="receipt-outline" size={size} color={color} />
+            <Package color={color} size={size} />
           ),
         }}
       />
@@ -31,7 +37,7 @@ export default function TabsLayout() {
         options={{
           title: "Multibox",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cube-outline" size={size} color={color} />
+            <LayoutGrid color={color} size={size} />
           ),
         }}
       />
@@ -40,9 +46,7 @@ export default function TabsLayout() {
         name="customers"
         options={{
           title: "Customers",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people-outline" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Users color={color} size={size} />,
         }}
       />
 
@@ -56,9 +60,7 @@ export default function TabsLayout() {
         })}
         options={{
           title: "Menu",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="menu-outline" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Menu color={color} size={size} />,
         }}
       />
     </Tabs>

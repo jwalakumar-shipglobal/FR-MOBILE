@@ -1,7 +1,7 @@
-import customerProps from "@/(interface)/order";
-import { SearchCustomerSchema } from "@/(Schema)/CSBIVSchema";
 import SelectDropDown from "@/components/Element/select";
 import { Button } from "@/components/ui/button";
+import customerProps from "@/interface/order";
+import { SearchCustomerSchema } from "@/Schema/CSBIVSchema";
 import { OrdersData } from "@/Zustand/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";

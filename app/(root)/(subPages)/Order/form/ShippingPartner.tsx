@@ -1,4 +1,4 @@
-import { ShipperRatesProps } from "@/(interface)/order";
+import { ShipperRatesProps } from "@/interface/order";
 import { OrdersData } from "@/Zustand/useStore";
 // import { OrdersDeatils } from "@/app/Zustand/useStore";
 import { Button } from "@/components/ui/button";

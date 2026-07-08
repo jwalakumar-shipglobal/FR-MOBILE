@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
-import LoginSchema from "../../(Schema)/authSchema";
+import LoginSchema from "../../Schema/authSchema";
 import { postPublic } from "../../Service/apiService";
 import PublicLayout from "../layout/publicLayout";
 

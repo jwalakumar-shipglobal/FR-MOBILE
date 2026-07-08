@@ -28,7 +28,6 @@ import {
 import { Separator } from "./ui/separator";
 
 export default function Header() {
-  // const [profileDeatils, setProfileDetails] = useState<any>(null);
   const [logoutPopup, setLogoutPopup] = useState<boolean>(false);
   const balance = useProfileDetails((state: any) => state.balance ?? 0);
   const profileData = useProfileDetails((state: any) => state.profiledata);
@@ -99,7 +98,7 @@ export default function Header() {
               <DropdownMenuItem
                 className=""
                 onPress={() => {
-                  router.push("/profile");
+                  router.push("/(root)/(subPages)/profile");
                 }}
               >
                 <User size={16} color={"gray"} />

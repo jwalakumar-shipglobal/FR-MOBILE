@@ -1,8 +1,3 @@
-import { ShipmentDetailsProps } from "@/(interface)/order";
-import {
-  ShipmentinfoDefaultValues,
-  ShipmentinfoSchema,
-} from "@/(Schema)/CSBIVSchema";
 import {
   BasicInput,
   BasicInputWithSideKey,
@@ -11,7 +6,12 @@ import DatePickerInput from "@/components/Element/DatePicker";
 import OrderItemsDetails from "@/components/Element/OrderItemsDetails";
 import { BasicComboBox } from "@/components/Element/select";
 import { Button } from "@/components/ui/button";
+import { ShipmentDetailsProps } from "@/interface/order";
 import { SHIPMENT_DETAILS, SHIPMENT_SIZE } from "@/lib/Mock/CSBIVData";
+import {
+  ShipmentinfoDefaultValues,
+  ShipmentinfoSchema,
+} from "@/Schema/CSBIVSchema";
 import { getPrivate } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";

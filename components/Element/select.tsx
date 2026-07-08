@@ -1,4 +1,4 @@
-import customerProps from "@/(interface)/order";
+import customerProps from "@/interface/order";
 import { cn } from "@/lib/utils";
 import type { TriggerRef } from "@rn-primitives/select";
 import React from "react";

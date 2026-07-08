@@ -7,7 +7,7 @@ interface ReusableButtonProps extends Omit<
   React.ComponentProps<typeof Button>,
   "variant"
 > {
-  title: string;
+  title: string | React.ReactNode;
   loading?: boolean;
   textClassName?: string;
   buttonVariant?:
