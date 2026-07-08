@@ -1,8 +1,8 @@
 import { ShipperRatesProps } from "@/(interface)/order";
-import SubPageLayout from "@/app/layout/subPageLayout";
-import postPrivate from "@/app/Service/apiService";
 import BreadCumb from "@/components/Element/BreadCumb";
 import { Button } from "@/components/ui/button";
+import SubPageLayout from "@/layout/subPageLayout";
+import postPrivate from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
 import { Check } from "lucide-react-native";
 import React, { ReactNode, useState } from "react";

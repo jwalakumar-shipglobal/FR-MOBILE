@@ -5,8 +5,8 @@ import {
 import ADDRESS_FIELDS, {
   BILLING_FIELDS,
   PERSONAL_DETAILS,
-} from "@/app/Mock/CSBIVData";
-import postPrivate, { getPublic } from "@/app/Service/apiService";
+} from "@/lib/Mock/CSBIVData";
+import postPrivate, { getPublic } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
 // import { OrdersDeatils } from "@/app/Zustand/useStore";
 import { BasicInput } from "@/components/Element/AllInput";

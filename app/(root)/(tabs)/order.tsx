@@ -1,5 +1,5 @@
-import PrivateLayout from "@/app/layout/privateLayout";
 import { Button } from "@/components/ui/button";
+import PrivateLayout from "@/layout/privateLayout";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React from "react";

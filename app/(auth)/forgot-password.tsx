@@ -15,8 +15,8 @@ import { ActivityIndicator, Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import z from "zod";
 import { BasicInput } from "../../components/Element/AllInput";
-import { postPublic } from "../Service/apiService";
-import PublicLayout from "../layout/publicLayout";
+import PublicLayout from "../../layout/publicLayout";
+import { postPublic } from "../../Service/apiService";
 
 export default function Forgotpassword() {
   const [loading, setLoading] = useState<boolean>(false);

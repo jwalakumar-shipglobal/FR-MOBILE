@@ -14,13 +14,13 @@ export default function PublicLayout({
   return (
     <SafeAreaView className="flex-1">
       <ImageBackground
-        source={require("../../assets/images/SG-Public-BackGround.jpg")}
+        source={require("../assets/images/SG-Public-BackGround.jpg")}
         resizeMode="cover"
         className="flex-1 items-center gap-y-10 px-4"
       >
         <View className="w-full flex items-center justify-center">
           <Image
-            source={require("../../assets/images/SG-PUBLIC-LOGO.png")}
+            source={require("../assets/images/SG-PUBLIC-LOGO.png")}
             className="w-2/3 h-20 mt-10"
             resizeMode="contain"
           />

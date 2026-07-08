@@ -3,8 +3,6 @@ import {
   ShipmentinfoDefaultValues,
   ShipmentinfoSchema,
 } from "@/(Schema)/CSBIVSchema";
-import { SHIPMENT_DETAILS, SHIPMENT_SIZE } from "@/app/Mock/CSBIVData";
-import { getPrivate } from "@/app/Service/apiService";
 import {
   BasicInput,
   BasicInputWithSideKey,
@@ -13,6 +11,8 @@ import DatePickerInput from "@/components/Element/DatePicker";
 import OrderItemsDetails from "@/components/Element/OrderItemsDetails";
 import { BasicComboBox } from "@/components/Element/select";
 import { Button } from "@/components/ui/button";
+import { SHIPMENT_DETAILS, SHIPMENT_SIZE } from "@/lib/Mock/CSBIVData";
+import { getPrivate } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";

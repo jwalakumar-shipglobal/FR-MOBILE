@@ -31,7 +31,7 @@ export default function SubPageLayout({
             <ChevronLeft size={25} color={"black"} />
           </Button>
           <Image
-            source={require("../../assets/images/SG-PUBLIC-LOGO.png")}
+            source={require("../assets/images/SG-PUBLIC-LOGO.png")}
             resizeMode="contain"
             className="h-13 w-28 -mt-2"
           />

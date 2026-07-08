@@ -3,8 +3,8 @@ import * as SecureStore from "expo-secure-store";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import "../global.css";
+import { getPrivate } from "../Service/apiService";
 import useProfileDetails from "../Zustand/useStore";
-import { getPrivate } from "./Service/apiService";
 
 export default function Index() {
   const [token, setToken] = useState<string | null>(null);

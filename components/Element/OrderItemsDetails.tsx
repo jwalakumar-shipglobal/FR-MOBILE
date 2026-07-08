@@ -1,4 +1,4 @@
-import { SHIPMENT_PRODUCT } from "@/app/Mock/CSBIVData";
+import { SHIPMENT_PRODUCT } from "@/lib/Mock/CSBIVData";
 import { Link } from "expo-router";
 import { Plus, Trash } from "lucide-react-native";
 import { useFieldArray } from "react-hook-form";

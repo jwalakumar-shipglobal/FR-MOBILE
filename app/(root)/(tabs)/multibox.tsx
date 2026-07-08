@@ -1,10 +1,11 @@
+import PrivateLayout from "@/layout/privateLayout";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 export default function Multibox() {
   return (
-    <View>
+    <PrivateLayout>
       <Text>multibox</Text>
-    </View>
+    </PrivateLayout>
   );
 }

@@ -1,5 +1,3 @@
-import SubPageLayout from "@/app/layout/subPageLayout";
-import { getPrivate } from "@/app/Service/apiService";
 import { Approved } from "@/assets/svg/KYCPendingSVG";
 import {
   AlertDialog,
@@ -15,7 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import SubPageLayout from "@/layout/subPageLayout";
 import { toSentenceCase } from "@/lib/utils";
+import { getPrivate } from "@/Service/apiService";
 import {
   ArrowDownToLine,
   IdCardLanyard,
