@@ -145,8 +145,8 @@ export default function Profile() {
         <View className="border border-gray-300 px-3 py-1 rounded-lg">
           <View className="flex-row items-center justify-between h-11">
             <View className="flex-row items-center">
-              <View className="bg-blue-400/50 p-1.5 rounded-md">
-                <MapPin size={18} color={"blue"} />
+              <View className="bg-green-400/50 p-1.5 rounded-md">
+                <MapPin size={18} color={"green"} />
               </View>
               <Text className="text-base font-semibold ms-1">
                 Billing Address
@@ -164,8 +164,8 @@ export default function Profile() {
         <View className="border border-gray-300 px-3 py-1 rounded-lg">
           <View className="flex-row items-center justify-between h-11">
             <View className="flex-row items-center">
-              <View className="bg-blue-400/50 p-1.5 rounded-md">
-                <MapPin size={18} color={"blue"} />
+              <View className="bg-red-400/50 p-1.5 rounded-md">
+                <MapPin size={18} color={"red"} />
               </View>
               <Text className="text-base font-semibold ms-1">
                 Pickup Address
@@ -244,7 +244,7 @@ export function EditPickUpAddress({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button className="bg-transparent">
-          <SquarePen size={20} color={"blue"} />
+          <SquarePen size={20} color={"#1e3a8a"} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="sm:max-w-[425px] bg-white border-transparent">

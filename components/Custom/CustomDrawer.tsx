@@ -1,4 +1,5 @@
 import { drawerMenus, settingsMenus } from "@/lib/Mock/SidebarMenu";
+import useProfileDetails from "@/Zustand/useStore";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { router, usePathname } from "expo-router";
 import { EllipsisVertical } from "lucide-react-native";
@@ -7,6 +8,19 @@ import { Button } from "../ui/button";
 
 export default function CustomDrawer(props: any) {
   const pathname = usePathname();
+
+  const profileData = useProfileDetails((state: any) => state.profiledata);
+
+  const profile = (profileData ?? {}) as {
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+  };
+  const firstInitial = profile.firstname?.toLocaleUpperCase().charAt(0) ?? "";
+  const lastInitial = profile.lastname?.toLocaleUpperCase().charAt(0) ?? "";
+  const displayName =
+    [profile.firstname, profile.lastname].filter(Boolean).join(" ") || "User";
+  const displayEmail = profile.email ?? "";
 
   return (
     <View className="flex-1">
@@ -73,13 +87,15 @@ export default function CustomDrawer(props: any) {
       <View className="border-t border-blue-800 bg-blue-900 p-4 flex-row items-center">
         <View className="flex-1 flex-row items-center gap-x-3">
           <View className="h-11 w-11 items-center justify-center rounded-lg bg-rose-500">
-            <Text className="text-white font-bold">JK</Text>
-          </View>
-          <View>
-            <Text className="text-white font-semibold text-sm">
-              Jwala Kumar
+            <Text className="text-white font-bold">
+              {firstInitial + lastInitial}
             </Text>
-            <Text className="text-blue-100 text-xs">jwala@gmail.com</Text>
+          </View>
+          <View className="max-w-40">
+            <Text className="text-white font-semibold text-sm">
+              {displayName}
+            </Text>
+            <Text className="text-blue-100 text-xs">{displayEmail}</Text>
           </View>
         </View>
         <Button size="icon" className="bg-transparent">
