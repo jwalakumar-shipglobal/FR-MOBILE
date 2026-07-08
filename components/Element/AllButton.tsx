@@ -1,30 +1,62 @@
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 
-interface BtnWithLoadingProps {
+interface ReusableButtonProps extends Omit<
+  React.ComponentProps<typeof Button>,
+  "variant"
+> {
   title: string;
   loading?: boolean;
-  BtnclassName?: string;
-  txtClassName?: string;
-  onPress?: any;
+  textClassName?: string;
+  buttonVariant?:
+    | "primary"
+    | "secondary"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "ghost"
+    | "link";
 }
 
-export default function BtnWithLoading({
+const ReusableButton = ({
   title,
-  loading,
-  BtnclassName,
-  txtClassName,
-  ...props
-}: BtnWithLoadingProps) {
-  return (
-    <View>
-      <TouchableOpacity
-        className={`${BtnclassName} cursor-pointer flex items-center justify-center`}
-        {...props}
-      >
-        <Text className={`${txtClassName} `}>{title}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+  loading = false,
+  buttonVariant = "primary",
+  className,
+  textClassName,
+  disabled,
+  onPress,
+  ...rest
+}: ReusableButtonProps) => {
+  const isPrimary = buttonVariant === "primary";
 
+  return (
+    <Button
+      {...rest}
+      onPress={onPress}
+      disabled={disabled || loading}
+      className={cn(
+        "w-full disabled:opacity-70",
+        isPrimary ? "bg-blue-900" : "bg-transparent shadow-none",
+        className,
+      )}
+    >
+      {loading ? (
+        <ActivityIndicator color={isPrimary ? "#fff" : "#1e3a8a"} />
+      ) : (
+        <Text
+          className={cn(
+            "font-semibold",
+            isPrimary ? "text-white" : "text-blue-900",
+          )}
+        >
+          {title}
+        </Text>
+      )}
+    </Button>
+  );
+};
+
+export default ReusableButton;

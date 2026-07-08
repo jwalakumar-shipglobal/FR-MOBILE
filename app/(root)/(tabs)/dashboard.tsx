@@ -1,3 +1,4 @@
+import PrivateLayout from "@/app/layout/privateLayout";
 import KYC, {
   AllOrders,
   CSBP,
@@ -16,7 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import PrivateLayout from "@/layout/privateLayout";
 import postPrivate from "@/Service/apiService";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";

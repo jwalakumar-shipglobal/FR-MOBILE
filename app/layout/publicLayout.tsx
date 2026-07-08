@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Image, ImageBackground, Text, View } from "react-native";
+import { Image, ImageBackground, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface publicLayoutProps {
@@ -14,14 +14,14 @@ export default function PublicLayout({
   return (
     <SafeAreaView className="flex-1">
       <ImageBackground
-        source={require("../assets/images/SG-Public-BackGround.jpg")}
+        source={require("../../assets/images/SG-Public-BackGround.jpg")}
         resizeMode="cover"
-        className="flex-1 items-center gap-y-10 px-4"
+        className="h-full flex items-center gap-y-10 px-4 pt-24"
       >
         <View className="w-full flex items-center justify-center">
           <Image
-            source={require("../assets/images/SG-PUBLIC-LOGO.png")}
-            className="w-2/3 h-20 mt-10"
+            source={require("../../assets/images/SG-PUBLIC-LOGO.png")}
+            className="w-64 h-14"
             resizeMode="contain"
           />
         </View>

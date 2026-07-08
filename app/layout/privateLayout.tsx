@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../components/header";
+import Header from "../../components/header";
 
 interface PrivateLayoutProps {
   children: ReactNode;

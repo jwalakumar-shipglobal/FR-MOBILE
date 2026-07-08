@@ -1,8 +1,8 @@
+import SubPageLayout from "@/app/layout/subPageLayout";
 import CardUI from "@/components/Blocks/CardUi";
 import BreadCumb from "@/components/Element/BreadCumb";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import SubPageLayout from "@/layout/subPageLayout";
 import postPrivate from "@/Service/apiService";
 import { useLocalSearchParams } from "expo-router";
 import {

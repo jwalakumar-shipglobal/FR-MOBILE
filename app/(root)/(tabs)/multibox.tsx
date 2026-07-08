@@ -1,4 +1,4 @@
-import PrivateLayout from "@/layout/privateLayout";
+import PrivateLayout from "@/app/layout/privateLayout";
 import React from "react";
 import { Text } from "react-native";
 
