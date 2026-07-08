@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { DrawerActions } from "@react-navigation/native";
 import { Tabs } from "expo-router";
 import React from "react";
 
@@ -47,6 +48,12 @@ export default function TabsLayout() {
 
       <Tabs.Screen
         name="menu"
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.dispatch(DrawerActions.openDrawer());
+          },
+        })}
         options={{
           title: "Menu",
           tabBarIcon: ({ color, size }) => (
