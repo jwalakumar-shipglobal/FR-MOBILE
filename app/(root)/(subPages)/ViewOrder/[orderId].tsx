@@ -1,6 +1,6 @@
 import SubPageLayout from "@/app/layout/subPageLayout";
-import CardUI from "@/components/Blocks/CardUi";
 import BreadCumb from "@/components/Element/BreadCumb";
+import CardUI from "@/components/Element/CardUi";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import postPrivate from "@/Service/apiService";

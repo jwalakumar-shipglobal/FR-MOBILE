@@ -1,5 +1,5 @@
-import CardUI from "@/components/Blocks/CardUi";
 import ReusableButton from "@/components/Element/AllButton";
+import CardUI from "@/components/Element/CardUi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React, { useState } from "react";

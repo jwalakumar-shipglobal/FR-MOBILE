@@ -1,19 +1,11 @@
 import SubPageLayout from "@/app/layout/subPageLayout";
 import { Approved } from "@/assets/svg/KYCPendingSVG";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import AppAlertDialog from "@/components/Element/AlertDialogUI";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { toSentenceCase } from "@/lib/utils";
 import { getPrivate } from "@/Service/apiService";
 import {
@@ -25,11 +17,13 @@ import {
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function Profile() {
   const [profileData, setProfileData] = useState<any>({});
   const [billingAdderss, setBillingAddress] = useState<any>({});
   const [pickupAddress, setPickAddress] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function getProfileDetails() {
     try {
@@ -81,108 +75,149 @@ export default function Profile() {
     .filter((part) => part)
     .join(", ");
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([
+        getProfileDetails(),
+        getBillingAddress(),
+        getPickUpAddress(),
+      ]);
+    } catch (error: unknown) {
+      console.log(error);
+      Toast.show({
+        type: "error",
+        text1: error instanceof Error ? error.message : "Something went wrong",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    getProfileDetails();
-    getBillingAddress();
-    getPickUpAddress();
+    fetchData();
   }, []);
 
   return (
     <SubPageLayout className="px-2">
-      <View>
-        <Text className="text-2xl font-semibold my-2">Profile</Text>
-      </View>
-      <Card className="bg-white border-transparent px-2">
-        <View className="gap-y-4 border rounded-lg px-2 py-3 border-gray-300">
-          <View className="flex-row items-center gap-x-2">
-            <View className="p-3 rounded-full bg-blue-900 ">
-              <User color={"white"} />
-            </View>
-            <View>
-              <Text className="text-gray-500">Name</Text>
-              <Text className="w-32 text-xs font-semibold text-gray-800">
-                {profileData.firstname} {profileData.lastname}
-              </Text>
-            </View>
-          </View>
-          <View className="px-3">
-            <Text className="font-semibold text-xs text-gray-500">
-              Email Id
-            </Text>
-            <Text className="font-semibold text-xs">{profileData.email}</Text>
-          </View>
-          <View className="px-3">
-            <Text className="font-semibold text-xs text-gray-500">
-              Mobile Number
-            </Text>
-            <Text className="font-semibold text-xs">{profileData.mobile}</Text>
-          </View>
+      {loading ? (
+        <View className="py-4 flex-col gap-y-5">
+          <Skeleton className="h-14 w-1/3 rounded-lg bg-gray-300" />
+          <Skeleton className="h-48 w-full rounded-lg bg-gray-300" />
+          <Skeleton className="h-60 w-full rounded-lg bg-gray-300" />
+          <Skeleton className="h-52 w-full rounded-lg bg-gray-300" />
         </View>
-        <View className="border border-gray-300 px-3 py-1 rounded-lg">
-          <View className="flex-row items-center justify-between h-11">
-            <View className="flex-row items-center">
-              <View className="bg-red-400/50 p-1.5 rounded-lg">
-                <IdCardLanyard size={18} color={"red"} />
+      ) : (
+        <>
+          <View>
+            <Text className="text-2xl font-semibold my-2">Profile</Text>
+          </View>
+          <Card className="bg-white border-transparent px-2">
+            <View className="gap-y-4 border rounded-lg px-2 py-3 border-gray-300">
+              <View className="flex-row items-center gap-x-2">
+                <View className="p-3 rounded-full bg-blue-900 ">
+                  <User color={"white"} />
+                </View>
+                <View>
+                  <Text className="text-gray-500">Name</Text>
+                  <Text className="w-32 text-xs font-semibold text-gray-800">
+                    {profileData.firstname} {profileData.lastname}
+                  </Text>
+                </View>
               </View>
-              <Text className="text-base font-semibold ms-2">
-                KYC Documents
-              </Text>
-            </View>
-            <KycBadge kyc_status={profileData.kyc_status} />
-          </View>
-          <Separator className="bg-gray-300" />
-          <View className="my-3">
-            <KYCDocument documentName="Aadhar" provided="Not Provided" />
-            <KYCDocument documentName="GST" provided="Not Provided" />
-            <KYCDocument documentName="Company PAN" provided="Not Provided" />
-            <KYCDocument documentName="Signature" provided="Not Provided" />
-            <KYCDocument
-              documentName="Merchant Agreement"
-              provided="Not Provided"
-            />
-          </View>
-        </View>
-        <View className="border border-gray-300 px-3 py-1 rounded-lg">
-          <View className="flex-row items-center justify-between h-11">
-            <View className="flex-row items-center">
-              <View className="bg-green-400/50 p-1.5 rounded-md">
-                <MapPin size={18} color={"green"} />
+              <View className="px-3">
+                <Text className="font-semibold text-xs text-gray-500">
+                  Email Id
+                </Text>
+                <Text className="font-semibold text-xs">
+                  {profileData.email}
+                </Text>
               </View>
-              <Text className="text-base font-semibold ms-1">
-                Billing Address
-              </Text>
-            </View>
-          </View>
-          <Separator className="bg-gray-300" />
-          <View className="my-3">
-            <Text className="text-black font-semibold">
-              {billingAdderss.company}
-            </Text>
-            <Text className="text-gray-700">{billingAddressDisplay}</Text>
-          </View>
-        </View>
-        <View className="border border-gray-300 px-3 py-1 rounded-lg">
-          <View className="flex-row items-center justify-between h-11">
-            <View className="flex-row items-center">
-              <View className="bg-red-400/50 p-1.5 rounded-md">
-                <MapPin size={18} color={"red"} />
+              <View className="px-3">
+                <Text className="font-semibold text-xs text-gray-500">
+                  Mobile Number
+                </Text>
+                <Text className="font-semibold text-xs">
+                  {profileData.mobile}
+                </Text>
               </View>
-              <Text className="text-base font-semibold ms-1">
-                Pickup Address
-              </Text>
             </View>
-            <EditPickUpAddress pickupAddressDisplay={pickupAddressDisplay} />
-          </View>
-          <Separator className="bg-gray-300" />
-          <View className="my-3">
-            <Text className="text-black font-semibold">
-              {pickupAddress.firstname} {pickupAddress.lastname} |
-              {pickupAddress.mobile}
-            </Text>
-            <Text className="text-gray-700 ">{pickupAddressDisplay}</Text>
-          </View>
-        </View>
-      </Card>
+            <View className="border border-gray-300 px-3 py-1 rounded-lg">
+              <View className="flex-row items-center justify-between h-11">
+                <View className="flex-row items-center">
+                  <View className="bg-red-400/50 p-1.5 rounded-lg">
+                    <IdCardLanyard size={18} color={"red"} />
+                  </View>
+                  <Text className="text-base font-semibold ms-2">
+                    KYC Documents
+                  </Text>
+                </View>
+                <KycBadge kyc_status={profileData.kyc_status} />
+              </View>
+              <Separator className="bg-gray-300" />
+              <View className="my-3">
+                <KYCDocument documentName="Aadhar" provided="Not Provided" />
+                <KYCDocument documentName="GST" provided="Not Provided" />
+                <KYCDocument
+                  documentName="Company PAN"
+                  provided="Not Provided"
+                />
+                <KYCDocument documentName="Signature" provided="Not Provided" />
+                <KYCDocument
+                  documentName="Merchant Agreement"
+                  provided="Not Provided"
+                />
+              </View>
+            </View>
+            <View className="border border-gray-300 px-3 py-1 rounded-lg">
+              <View className="flex-row items-center justify-between h-11">
+                <View className="flex-row items-center">
+                  <View className="bg-green-400/50 p-1.5 rounded-md">
+                    <MapPin size={18} color={"green"} />
+                  </View>
+                  <Text className="text-base font-semibold ms-1">
+                    Billing Address
+                  </Text>
+                </View>
+              </View>
+              <Separator className="bg-gray-300" />
+              <View className="my-3">
+                <Text className="text-black font-semibold">
+                  {billingAdderss.company}
+                </Text>
+                <Text className="text-gray-700 text-xs">
+                  {billingAddressDisplay}
+                </Text>
+              </View>
+            </View>
+            <View className="border border-gray-300 px-3 py-1 rounded-lg">
+              <View className="flex-row items-center justify-between h-11">
+                <View className="flex-row items-center">
+                  <View className="bg-red-400/50 p-1.5 rounded-md">
+                    <MapPin size={18} color={"red"} />
+                  </View>
+                  <Text className="text-base font-semibold ms-1">
+                    Pickup Address
+                  </Text>
+                </View>
+                <EditPickUpAddress
+                  pickupAddressDisplay={pickupAddressDisplay}
+                />
+              </View>
+              <Separator className="bg-gray-300" />
+              <View className="my-3">
+                <Text className="text-black font-semibold">
+                  {pickupAddress.firstname} {pickupAddress.lastname} |
+                  {pickupAddress.mobile}
+                </Text>
+                <Text className="text-gray-700 text-xs">
+                  {pickupAddressDisplay}
+                </Text>
+              </View>
+            </View>
+          </Card>
+        </>
+      )}
     </SubPageLayout>
   );
 }
@@ -241,35 +276,38 @@ export function EditPickUpAddress({
   pickupAddressDisplay: any;
 }) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button className="bg-transparent">
-          <SquarePen size={20} color={"#1e3a8a"} />
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[425px] bg-white border-transparent">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-black">
-            Edit Pickup Address
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            You are about to edit the pickup address:
-          </AlertDialogDescription>
-          <AlertDialogTitle className="text-black text-xs">
-            {pickupAddressDisplay}
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogFooter className="mt-5">
-          <Button className="bg-blue-900">
-            <Text className="text-white">Confirm</Text>
-          </Button>
-          <AlertDialogCancel asChild>
-            <Button className="border border-blue-900 bg-transparent">
-              <Text className="text-blue-900">Cancel</Text>
-            </Button>
-          </AlertDialogCancel>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <AppAlertDialog
+      title="Edit Pickup Address"
+      description="Please verify the pickup address before continuing."
+      actionText="Confirm"
+      cancelText="Cancel"
+      onAction={() => {
+        console.log("Confirmed");
+      }}
+      contentClassName="bg-white rounded-3xl px-6 py-7 border-0"
+      titleClassName="text-center text-xl font-bold text-slate-900"
+      descriptionClassName="text-center text-gray-500 mt-2"
+      footerClassName="mt-6"
+      body={
+        <View className="items-center mt-6">
+          <View className="w-16 h-16 rounded-full bg-blue-100 items-center justify-center">
+            <MapPin size={30} color="#1e3a8a" />
+          </View>
+          <View className="mt-5 w-full rounded-2xl bg-slate-50 border border-slate-200 p-4">
+            <Text className="text-xs font-semibold text-blue-900 uppercase">
+              Pickup Address
+            </Text>
+
+            <Text className="mt-2 text-[15px] leading-6 text-slate-700">
+              {pickupAddressDisplay}
+            </Text>
+          </View>
+        </View>
+      }
+    >
+      <Button className="bg-transparent">
+        <SquarePen size={20} color="#1e3a8a" />
+      </Button>
+    </AppAlertDialog>
   );
 }

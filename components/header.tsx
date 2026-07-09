@@ -1,20 +1,17 @@
 import useProfileDetails from "@/Zustand/useStore";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import { CircleQuestionMark, Lock, LogOut, User } from "lucide-react-native";
-import React, { useState } from "react";
+import {
+  CircleQuestionMark,
+  Lock,
+  LogOut,
+  User,
+  Wallet,
+} from "lucide-react-native";
+import React, { ReactNode, useState } from "react";
 import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "./ui/alert-dialog";
+import AppAlertDialog from "./Element/AlertDialogUI";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -25,11 +22,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Separator } from "./ui/separator";
 
 export default function Header() {
-  const [logoutPopup, setLogoutPopup] = useState<boolean>(false);
   const balance = useProfileDetails((state: any) => state.balance ?? 0);
+
   const profileData = useProfileDetails((state: any) => state.profiledata);
 
   const profile = (profileData ?? {}) as {
@@ -37,109 +33,34 @@ export default function Header() {
     lastname?: string;
     email?: string;
   };
-  const firstInitial = profile.firstname?.charAt(0) ?? "";
-  const lastInitial = profile.lastname?.charAt(0) ?? "";
-  const displayName =
-    [profile.firstname, profile.lastname].filter(Boolean).join(" ") || "User";
-  const displayEmail = profile.email ?? "";
+
+  const firstInitial = profile.firstname?.charAt(0)?.toUpperCase() ?? "";
+  const lastInitial = profile.lastname?.charAt(0)?.toUpperCase() ?? "";
 
   return (
-    <View className="w-full h-14 flex-row items-center justify-between px-3 border-b bg-white border-gray-300">
-      <View>
-        <Image
-          source={require("../assets/images/SG-PUBLIC-LOGO.png")}
-          resizeMode="contain"
-          className="h-14 w-28"
-        />
-        <Logout logoutPopup={logoutPopup} setLogoutPopup={setLogoutPopup} />
-      </View>
-
-      <View className="flex-row gap-x-2 justify-center items-center">
-        <View className="">
-          <Text className="font-semibold">₹{balance}</Text>
+    <View className="h-16 flex-row items-center bg-white px-3 border-b border-slate-200 rounded-b-lg">
+      <Image
+        source={require("../assets/images/SG-PUBLIC-LOGO.png")}
+        resizeMode="contain"
+        className="h-12 w-32"
+      />
+      <View className="flex-1 flex-row justify-end items-center gap-x-2">
+        <View className="flex-row items-center rounded-full bg-blue-50 px-4 py-2">
+          <Wallet size={18} color="#1d4ed8" />
+          <Text className="ml-2 font-bold text-blue-900">₹ {balance}</Text>
         </View>
-        <Separator orientation="vertical" className="bg-gray-700" />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="default"
-              className="border rounded-full bg-rose-700 border-transparent"
-            >
-              <Text className="text-white">
-                {firstInitial}
-                {lastInitial}
-              </Text>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            sideOffset={2}
-            className="w-56 bg-white border-transparent"
-            align="start"
-          >
-            <DropdownMenuLabel>
-              <View className="flex-row items-center gap-x-3">
-                <View className="bg-rose-700 rounded-full h-10 w-9 flex items-center justify-center">
-                  <Text className="text-white">
-                    {firstInitial}
-                    {lastInitial}
-                  </Text>
-                </View>
-                <Separator orientation="vertical" className="" />
-                <View>
-                  <Text className="w-32">{displayName}</Text>
-                  <Text className="font-semibold text-xs text-gray-500">
-                    {displayEmail}
-                  </Text>
-                </View>
-              </View>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-gray-500" />
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                className=""
-                onPress={() => {
-                  router.push("/(root)/(subPages)/profile");
-                }}
-              >
-                <User size={16} color={"gray"} />
-                <Text className="text-gray-500 font-semibold">Profile</Text>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Lock size={16} color="gray" />
-                <Text className="text-gray-500 font-semibold">
-                  Change Password
+        <View>
+          <ProfileDropdown
+            dropTrigger={
+              <Button className="h-11 w-11 rounded-full bg-blue-900">
+                <Text className="text-xs font-semibold text-white">
+                  {firstInitial}
+                  {lastInitial}
                 </Text>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LogOut size={16} color="gray" />
-                <Text className="text-gray-500 font-semibold">
-                  Logout all other devices
-                </Text>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator className="bg-gray-500" />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <CircleQuestionMark size={16} color={"gray"} />
-                <Text className="font-semibold text-gray-500">
-                  Resource Center
-                </Text>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator className="bg-gray-500" />
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                closeOnPress={false}
-                onPress={() => {
-                  setLogoutPopup(true);
-                }}
-              >
-                <LogOut size={16} color={"gray"} />
-                <Text className="font-semibold text-gray-500">Sign Out</Text>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              </Button>
+            }
+          />
+        </View>
       </View>
     </View>
   );
@@ -163,33 +84,137 @@ export function Logout({
 
   return (
     <View className="flex-1 items-center justify-center">
-      <AlertDialog open={logoutPopup} onOpenChange={setLogoutPopup}>
-        <AlertDialogContent className="bg-white border-transparent shadow-xl shadow-white">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-black">
-              Are You Sure You Want to Log Out..?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-center text-gray-800">
-              You will need to sign in again to access your account and continue
-              using the app.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-row items-center justify-end">
-            <AlertDialogCancel
-              className="bg-white border-white px-5"
-              onPress={() => {
-                setLogoutPopup(false);
-                router.replace("/dashboard");
-              }}
+      <AppAlertDialog
+        open={logoutPopup}
+        onOpenChange={setLogoutPopup}
+        title="Logout"
+        description="Are you sure you want to log out? You will need to sign in again to continue using the application."
+        actionText="Logout"
+        cancelText="Cancel"
+        onAction={Logouthandel}
+        onCancel={() => {
+          setLogoutPopup(false);
+          router.replace("/dashboard");
+        }}
+        contentClassName="bg-white rounded-3xl border-0 px-6 py-7"
+        titleClassName="text-center text-2xl font-bold text-slate-900"
+        descriptionClassName="text-center text-gray-500 mt-2 leading-6"
+        footerClassName="mt-6"
+        actionClassName="bg-red-600 w-full"
+        cancelClassName="bg-blue-900"
+        cancelTextClassName="text-white"
+        body={
+          <View className="items-center mt-2">
+            <View className="h-20 w-20 items-center justify-center rounded-full bg-red-100">
+              <LogOut size={38} color="#dc2626" />
+            </View>
+          </View>
+        }
+      >
+        <View />
+      </AppAlertDialog>
+    </View>
+  );
+}
+
+interface ProfileDropdownProps {
+  dropTrigger: ReactNode;
+}
+
+export function ProfileDropdown({ dropTrigger }: ProfileDropdownProps) {
+  const [logoutPopup, setLogoutPopup] = useState(false);
+
+  const profileData = useProfileDetails((state: any) => state.profiledata);
+
+  const profile = (profileData ?? {}) as {
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+  };
+
+  const firstInitial = profile.firstname?.charAt(0)?.toUpperCase() ?? "";
+  const lastInitial = profile.lastname?.charAt(0)?.toUpperCase() ?? "";
+
+  const displayName =
+    [profile.firstname, profile.lastname].filter(Boolean).join(" ") || "User";
+
+  const displayEmail = profile.email ?? "";
+
+  return (
+    <View>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>{dropTrigger}</DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="end"
+          sideOffset={0}
+          className="w-72 rounded-2xl border border-slate-300 bg-white p-2"
+        >
+          <DropdownMenuLabel>
+            <View className="flex-row items-center rounded-lg border border-blue-500 bg-blue-100 p-3">
+              <View className="h-14 w-14 items-center justify-center rounded-full bg-blue-900">
+                <Text className="text-lg font-bold text-white">
+                  {firstInitial}
+                  {lastInitial}
+                </Text>
+              </View>
+              <View className="ml-3 flex-1">
+                <Text
+                  numberOfLines={1}
+                  className="text-base font-bold text-slate-900"
+                >
+                  {displayName}
+                </Text>
+                <Text numberOfLines={1} className="mt-1 text-xs text-slate-500">
+                  {displayEmail}
+                </Text>
+              </View>
+            </View>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-slate-200" />
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              className="rounded-xl py-3"
+              onPress={() => router.push("/(root)/(subPages)/profile")}
             >
-              <Text className="text-black">Cancel</Text>
-            </AlertDialogCancel>
-            <AlertDialogAction onPress={Logouthandel} className="bg-black px-5">
-              <Text className="text-white">Logout</Text>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+              <User size={18} color="#2563eb" />
+              <Text className="font-medium text-slate-700">Profile</Text>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="rounded-xl py-3">
+              <Lock size={18} color="#2563eb" />
+              <Text className="font-medium text-slate-700">
+                Change Password
+              </Text>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="rounded-xl py-3">
+              <LogOut size={18} color="#2563eb" />
+              <Text className="font-medium text-slate-700">
+                Logout Other Devices
+              </Text>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator className="bg-slate-200" />
+          <DropdownMenuGroup>
+            <DropdownMenuItem className="rounded-xl py-3">
+              <CircleQuestionMark size={18} color="#2563eb" />
+              <Text className="font-medium text-slate-700">
+                Resource Center
+              </Text>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator className="bg-slate-200" />
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              closeOnPress={false}
+              className="rounded-xl py-3"
+              onPress={() => setLogoutPopup(true)}
+            >
+              <LogOut size={18} color="#dc2626" />
+              <Text className="font-semibold text-red-600">Sign Out</Text>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Logout logoutPopup={logoutPopup} setLogoutPopup={setLogoutPopup} />
     </View>
   );
 }

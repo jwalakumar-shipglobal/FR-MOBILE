@@ -1,6 +1,6 @@
-import CardUI from "@/components/Blocks/CardUi";
 import ReusableButton from "@/components/Element/AllButton";
 import PassInput, { BasicInput } from "@/components/Element/AllInput";
+import CardUI from "@/components/Element/CardUi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";

@@ -4,6 +4,7 @@ import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { router, usePathname } from "expo-router";
 import { EllipsisVertical } from "lucide-react-native";
 import { Image, Pressable, Text, View } from "react-native";
+import { ProfileDropdown } from "../header";
 import { Button } from "../ui/button";
 
 export default function CustomDrawer(props: any) {
@@ -103,9 +104,13 @@ export default function CustomDrawer(props: any) {
             <Text className="text-blue-100 text-xs">{displayEmail}</Text>
           </View>
         </View>
-        <Button size="icon" className="bg-transparent">
-          <EllipsisVertical size={20} color="white" />
-        </Button>
+        <ProfileDropdown
+          dropTrigger={
+            <Button size="icon" className="bg-transparent">
+              <EllipsisVertical size={20} color="white" />
+            </Button>
+          }
+        />
       </View>
     </View>
   );

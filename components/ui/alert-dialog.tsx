@@ -128,7 +128,7 @@ function AlertDialogCancel({
   return (
     <TextClassContext.Provider value={buttonTextVariants({ className, variant: 'outline' })}>
       <AlertDialogPrimitive.Cancel
-        className={cn(buttonVariants({ variant: 'outline' }), className)}
+        className={cn(buttonVariants({ variant: 'default' }), className)}
         {...props}
       />
     </TextClassContext.Provider>

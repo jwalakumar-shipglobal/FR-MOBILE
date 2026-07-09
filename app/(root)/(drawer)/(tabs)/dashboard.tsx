@@ -91,12 +91,6 @@ export default function Dashboard() {
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
               className={`border w-[48%] rounded-lg mb-4 overflow-hidden ${item.colorClass}`}
-              style={
-                {
-                  // marginBottom: 8,
-                  // borderRadius: 12,
-                }
-              }
             >
               <CardContent
                 className={`w-full rounded-lg overflow-hidden py-3 flex flex-col gap-y-2 items-center justify-center`}
@@ -174,29 +168,29 @@ const DashCard = (dashboardData: any) => {
       name: "All Orders",
       icon: <AllOrders />,
       orders: dashboardData?.total_orders,
-      colorClass: "border-blue-400/30",
-      gradient: ["#b9d6fa", "#FFFFFF"] as const,
+      colorClass: "border-orange-400/30",
+      gradient: ["#fccca4", "#FFFFFF"] as const,
     },
     {
       name: "Drafted Orders",
       icon: <Drafted />,
       orders: dashboardData?.drafted_orders,
-      colorClass: "border-orange-400/30",
-      gradient: ["#fccca4", "#FFFFFF"] as const,
+      colorClass: "border-blue-400/30",
+      gradient: ["#b9d6fa", "#FFFFFF"] as const,
     },
     {
       name: "Pending For Label",
       icon: <LabelPending />,
       orders: dashboardData?.pending_label_orders,
-      colorClass: "border-yellow-400/30",
-      gradient: ["#fae9a5", "#FFFFFF"] as const,
+      colorClass: "border-green-400/30",
+      gradient: ["#affaca", "#FFFFFF"] as const,
     },
     {
       name: "Packed Orders",
       icon: <Packed />,
       orders: dashboardData?.packed_orders,
-      colorClass: "border-green-400/30",
-      gradient: ["#affaca", "#FFFFFF"] as const,
+      colorClass: "border-red-400/30",
+      gradient: ["#f57f7f", "#FFFFFF"] as const,
     },
     {
       name: "Dispatched Orders",
