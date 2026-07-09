@@ -8,7 +8,6 @@ import { Button } from "../ui/button";
 
 export default function CustomDrawer(props: any) {
   const pathname = usePathname();
-
   const profileData = useProfileDetails((state: any) => state.profiledata);
 
   const profile = (profileData ?? {}) as {
@@ -49,11 +48,14 @@ export default function CustomDrawer(props: any) {
                   props.navigation.closeDrawer();
                 }}
                 key={idx}
-                className={`flex-row items-center gap-x-2 p-2 mx-2 rounded-lg ${isActive ? "border bg-orange-500/10" : ""} border-orange-400`}
+                className={`flex-row items-center gap-x-2 mx-2 rounded-lg ${isActive ? "border bg-blue-900 p-3" : "p-2"} border-blue-900`}
               >
-                <item.icon size={20} color={isActive ? "#F97316" : "#9CA3AF"} />
+                <item.icon
+                  size={isActive ? 23 : 20}
+                  color={isActive ? "white" : "#2a4365"}
+                />
                 <Text
-                  className={`${isActive ? "text-orange-400 font-bold" : "text-gray-400 font-semibold"}`}
+                  className={`${isActive ? "text-white font-bold text-lg" : "text-blue-900 font-semibold"}`}
                 >
                   {item.title}
                 </Text>
@@ -71,11 +73,14 @@ export default function CustomDrawer(props: any) {
                   router.replace(item.href as any);
                   props.navigation.closeDrawer();
                 }}
-                className={`flex-row items-center gap-x-2 p-2 mx-2 rounded-lg ${isActive ? "border bg-orange-500/10" : ""} border-orange-400`}
+                className={`flex-row items-center gap-x-2 mx-2 rounded-lg ${isActive ? "border bg-blue-900 p-3" : "p-2"} border-blue-900`}
               >
-                <item.icon size={20} color={isActive ? "#F97316" : "#9CA3AF"} />
+                <item.icon
+                  size={isActive ? 23 : 20}
+                  color={isActive ? "white" : "#2a4365"}
+                />
                 <Text
-                  className={`${isActive ? "text-orange-400 font-bold" : "text-gray-400 font-semibold"}`}
+                  className={`${isActive ? "text-white font-bold text-lg" : "text-blue-900 font-semibold"}`}
                 >
                   {item.title}
                 </Text>
@@ -84,9 +89,9 @@ export default function CustomDrawer(props: any) {
           })}
         </View>
       </DrawerContentScrollView>
-      <View className="border-t border-blue-800 bg-blue-900 p-4 flex-row items-center">
+      <View className="bg-blue-900 rounded-t-lg p-4 flex-row items-center">
         <View className="flex-1 flex-row items-center gap-x-3">
-          <View className="h-11 w-11 items-center justify-center rounded-lg bg-rose-500">
+          <View className="h-11 w-11 items-center justify-center rounded-full bg-rose-500">
             <Text className="text-white font-bold">
               {firstInitial + lastInitial}
             </Text>

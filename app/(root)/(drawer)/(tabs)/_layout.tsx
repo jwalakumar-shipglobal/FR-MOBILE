@@ -25,7 +25,7 @@ export default function TabsLayout() {
     },
     {
       name: "dashboard",
-      title: "dashboard",
+      title: "Dashboard",
       icon: LayoutDashboard,
     },
     {
@@ -79,7 +79,7 @@ export default function TabsLayout() {
                 className={cn(
                   "justify-center items-center rounded-full",
                   focused
-                    ? "w-[45px] h-[45px] -mt-5 bg-blue-600 shadow-lg"
+                    ? "w-[45px] h-[45px] -mt-5 bg-blue-900 shadow-lg"
                     : "w-7 h-7",
                 )}
                 style={{
