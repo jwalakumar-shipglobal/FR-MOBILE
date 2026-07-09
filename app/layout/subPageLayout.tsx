@@ -6,8 +6,6 @@ import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// export const scrollRef = useRef<ScrollView>(null);
-
 export default function SubPageLayout({
   children,
   className,
@@ -20,7 +18,7 @@ export default function SubPageLayout({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       className="flex-1"
     >
-      <SafeAreaView className="bg-gray-100">
+      <SafeAreaView className="bg-gray-100 flex-1">
         <View className="h-12 flex-row items-center justify-between pe-3 border-b border-gray-400 bg-white">
           <Button
             onPress={() => {
@@ -36,8 +34,8 @@ export default function SubPageLayout({
             className="h-13 w-28 -mt-2"
           />
         </View>
-        <ScrollView nestedScrollEnabled={true}>
-          <View className={`${className} mb-10`}>{children}</View>
+        <ScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
+          <View className={`${className} flex-1`}>{children}</View>
         </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>

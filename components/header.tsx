@@ -179,7 +179,12 @@ export function ProfileDropdown({ dropTrigger }: ProfileDropdownProps) {
               <User size={18} color="#2563eb" />
               <Text className="font-medium text-slate-700">Profile</Text>
             </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-xl py-3">
+            <DropdownMenuItem
+              className="rounded-xl py-3"
+              onPress={() =>
+                router.push("/(root)/(subPages)/(Password)/change-password")
+              }
+            >
               <Lock size={18} color="#2563eb" />
               <Text className="font-medium text-slate-700">
                 Change Password

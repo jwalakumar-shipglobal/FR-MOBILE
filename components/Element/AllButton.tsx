@@ -50,6 +50,7 @@ const ReusableButton = ({
           className={cn(
             "font-semibold",
             isPrimary ? "text-white" : "text-blue-900",
+            textClassName,
           )}
         >
           {title}

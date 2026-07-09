@@ -1,6 +1,10 @@
-import { Slot } from "expo-router";
-import React from "react";
+import { Stack } from "expo-router";
 
-export default function _layout() {
-  return <Slot />;
+export default function RootLayout() {
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(drawer)" />
+      <Stack.Screen name="(subPages)" />
+    </Stack>
+  );
 }

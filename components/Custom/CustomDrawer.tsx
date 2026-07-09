@@ -45,7 +45,7 @@ export default function CustomDrawer(props: any) {
             return (
               <Pressable
                 onPress={() => {
-                  router.replace(item.href as any);
+                  router.push(item.href as any);
                   props.navigation.closeDrawer();
                 }}
                 key={idx}
@@ -71,7 +71,7 @@ export default function CustomDrawer(props: any) {
               <Pressable
                 key={idx}
                 onPress={() => {
-                  router.replace(item.href as any);
+                  router.push(item.href as any);
                   props.navigation.closeDrawer();
                 }}
                 className={`flex-row items-center gap-x-2 mx-2 rounded-lg ${isActive ? "border bg-blue-900 p-3" : "p-2"} border-blue-900`}

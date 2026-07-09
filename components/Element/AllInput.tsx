@@ -67,7 +67,7 @@ interface PassInputProps {
   required: boolean;
   name: string;
   className?: string;
-  form?: any;
+  form: any;
 }
 
 export default function PassInput({

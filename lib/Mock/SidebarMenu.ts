@@ -79,7 +79,7 @@ export const settingsMenus = [
   {
     title: "Password",
     icon: Lock,
-    href: "/(root)/(drawer)/settings",
+    href: "/(root)/(subPages)/(Password)/change-password",
     path: "/",
   },
 ];
