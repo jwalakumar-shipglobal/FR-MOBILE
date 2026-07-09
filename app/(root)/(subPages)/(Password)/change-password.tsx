@@ -11,12 +11,20 @@ import { Text, View } from "react-native";
 import z from "zod";
 
 export default function changePassword() {
-  const ChangePasswordForm = useForm<z.infer<typeof changePassSchema>>({
+  type changePassSchetype = z.infer<typeof changePassSchema>;
+
+  const ChangePasswordForm = useForm<changePassSchetype>({
     resolver: zodResolver(changePassSchema),
     defaultValues: changePassdefault,
   });
 
-  console.log(router.canGoBack());
+  async function changePassSubmit(data: changePassSchetype) {
+    try {
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <SubPageLayout className="flex-1 justify-center bg-gray-100 px-5">
@@ -58,12 +66,12 @@ export default function changePassword() {
                 form={ChangePasswordForm}
               />
             </View>
-            {/* <View className="rounded-xl bg-blue-50 p-4">
+            <View className="rounded-xl bg-blue-50 p-4">
               <Text className="font-semibold text-blue-900">
                 Password Requirements
               </Text>
               <Text className="mt-2 text-sm text-gray-600">
-                • Minimum 8 characters
+                • Minimum 6 characters
               </Text>
               <Text className="text-sm text-gray-600">
                 • At least one uppercase letter
@@ -74,9 +82,12 @@ export default function changePassword() {
               <Text className="text-sm text-gray-600">
                 • At least one special character
               </Text>
-            </View> */}
+            </View>
             <View className="gap-y-3">
-              <ReusableButton title="Change Password" />
+              <ReusableButton
+                title="Change Password"
+                onPress={ChangePasswordForm.handleSubmit(changePassSubmit)}
+              />
               <ReusableButton
                 title="Cancel"
                 className="border border-blue-700 bg-white"

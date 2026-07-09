@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "LOGIN-SIGNUP",
+    "name": "SG-Franchise",
     "slug": "sg-franchise",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,6 +12,7 @@
       "supportsTablet": true
     },
     "android": {
+      "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

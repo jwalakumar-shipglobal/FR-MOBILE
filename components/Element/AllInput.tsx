@@ -93,6 +93,8 @@ export default function PassInput({
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <View className="relative">
             <TextInput
+              contextMenuHidden
+              autoComplete="off"
               placeholder={placeholder}
               value={value?.toString() || ""}
               onChangeText={onChange}

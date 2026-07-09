@@ -34,7 +34,15 @@ export default function SubPageLayout({
             className="h-13 w-28 -mt-2"
           />
         </View>
-        <ScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView
+          className="flex-1"
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 40,
+          }}
+        >
           <View className={`${className} flex-1`}>{children}</View>
         </ScrollView>
       </SafeAreaView>
