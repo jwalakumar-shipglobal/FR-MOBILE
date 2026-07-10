@@ -2,15 +2,20 @@ import SubPageLayout from "@/app/layout/subPageLayout";
 import ReusableButton from "@/components/Element/AllButton";
 import PassInput from "@/components/Element/AllInput";
 import CardUI from "@/components/Element/CardUi";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { changePassdefault, changePassSchema } from "@/Schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { LockKeyhole } from "lucide-react-native";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import z from "zod";
 
 export default function changePassword() {
+  const [logoutOtherdeviceCheck, setLogoutOtherdeviceCheck] =
+    useState<boolean>(false);
   type changePassSchetype = z.infer<typeof changePassSchema>;
 
   const ChangePasswordForm = useForm<changePassSchetype>({
@@ -65,6 +70,28 @@ export default function changePassword() {
                 name="confirm_password"
                 form={ChangePasswordForm}
               />
+              <View>
+                <View className="flex flex-row items-center gap-3">
+                  <Checkbox
+                    id="terms"
+                    checked={logoutOtherdeviceCheck}
+                    onCheckedChange={() =>
+                      setLogoutOtherdeviceCheck(!logoutOtherdeviceCheck)
+                    }
+                    className={` h-5 w-5 border-2 border-blue-600 bg-white data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600
+    `}
+                  />
+                  <Label
+                    onPress={() => {
+                      setLogoutOtherdeviceCheck(true);
+                    }}
+                    htmlFor="terms"
+                    className="text-black"
+                  >
+                    Log me out of all devices.
+                  </Label>
+                </View>
+              </View>
             </View>
             <View className="rounded-xl bg-blue-50 p-4">
               <Text className="font-semibold text-blue-900">

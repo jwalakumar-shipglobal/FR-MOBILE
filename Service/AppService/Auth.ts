@@ -15,3 +15,11 @@ export async function loginService(payload: any) {
     throw error;
   }
 }
+
+export async function ChangePasswordService(payload: any) {
+  try {
+    await postPublic("/auth/change-password", payload);
+  } catch (error) {
+    throw error;
+  }
+}

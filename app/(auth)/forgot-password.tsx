@@ -120,7 +120,7 @@ export default function Forgotpassword() {
               </View>
               <View className="w-full flex-col items-center mt-5 -px-2">
                 <ReusableButton
-                  title="Login"
+                  title="Submit"
                   loading={loading}
                   onPress={forgotpasswordForm.handleSubmit(onSubmitHandler)}
                 />
