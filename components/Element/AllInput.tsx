@@ -1,13 +1,8 @@
 import { Eye, EyeOff } from "lucide-react-native";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
-import {
-  KeyboardTypeOptions,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { KeyboardTypeOptions, Pressable, Text, View } from "react-native";
+import { Input } from "../ui/input";
 
 interface BasicInputProps {
   placeholder: string;
@@ -42,7 +37,7 @@ export function BasicInput({
         name={name}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
-            <TextInput
+            <Input
               placeholder={placeholder}
               value={value?.toString() || ""}
               onChangeText={onChange}
@@ -92,7 +87,7 @@ export default function PassInput({
         name={name}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <View className="relative">
-            <TextInput
+            <Input
               contextMenuHidden
               autoComplete="off"
               placeholder={placeholder}
@@ -149,7 +144,7 @@ export function BasicInputWithSideKey({
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
             <View className="flex-row w-full items-center h-12">
-              <TextInput
+              <Input
                 keyboardType={keyBoardType as KeyboardTypeOptions | undefined}
                 placeholder={placeholder}
                 value={value?.toString() || ""}
