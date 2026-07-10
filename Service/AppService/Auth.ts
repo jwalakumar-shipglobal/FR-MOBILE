@@ -23,3 +23,11 @@ export async function ChangePasswordService(payload: any) {
     throw error;
   }
 }
+
+export async function LogoutService() {
+  try {
+    await getPrivate("/auth/logout");
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,4 +1,6 @@
-import logOutallDeviceService from "@/Service/AppService/Auth";
+import logOutallDeviceService, {
+  LogoutService,
+} from "@/Service/AppService/Auth";
 import useProfileDetails from "@/Zustand/useStore";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
@@ -75,12 +77,24 @@ export function Logout({
   logoutPopup: boolean;
 }) {
   async function Logouthandel() {
-    SecureStore.deleteItemAsync("token");
-    router.replace("/login");
-    Toast.show({
-      type: "success",
-      text1: "Logout Successful",
-    });
+    try {
+      await LogoutService();
+      await SecureStore.deleteItemAsync("token");
+      router.replace("/login");
+      Toast.show({
+        type: "success",
+        text1: "Logout Successful",
+      });
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      Toast.show({
+        type: "error",
+        text1: message,
+      });
+    }
   }
 
   return (

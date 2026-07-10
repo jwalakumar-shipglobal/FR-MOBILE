@@ -73,7 +73,10 @@ const AppAlertDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter className={cn("flex-col gap-3", footerClassName)}>
           <AlertDialogAction
-            className={cn("w-full rounded-xl bg-blue-900", actionClassName)}
+            className={cn(
+              "w-full rounded-xl bg-blue-900 px-0",
+              actionClassName,
+            )}
           >
             <ReusableButton
               title={actionText}
