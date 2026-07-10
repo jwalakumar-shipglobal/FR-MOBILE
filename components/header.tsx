@@ -1,3 +1,4 @@
+import logOutallDeviceService from "@/Service/AppService/Auth";
 import useProfileDetails from "@/Zustand/useStore";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
@@ -140,6 +141,23 @@ export function ProfileDropdown({ dropTrigger }: ProfileDropdownProps) {
 
   const displayEmail = profile.email ?? "";
 
+  async function LogoutOtherDevice() {
+    try {
+      const res = await logOutallDeviceService();
+      Toast.show({
+        type: "success",
+        text1: res.message || "Logged out from all other devices.",
+      });
+    } catch (error: any) {
+      const message = error.message || "SomeThings is Error";
+      console.log(message);
+      Toast.show({
+        type: "error",
+        text1: message,
+      });
+    }
+  }
+
   return (
     <View>
       <DropdownMenu>
@@ -190,7 +208,10 @@ export function ProfileDropdown({ dropTrigger }: ProfileDropdownProps) {
                 Change Password
               </Text>
             </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-xl py-3">
+            <DropdownMenuItem
+              className="rounded-xl py-3"
+              onPress={LogoutOtherDevice}
+            >
               <LogOut size={18} color="#2563eb" />
               <Text className="font-medium text-slate-700">
                 Logout Other Devices

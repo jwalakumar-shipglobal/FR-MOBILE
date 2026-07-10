@@ -23,10 +23,15 @@ const attactToken = async (config: InternalAxiosRequestConfig) => {
 api.interceptors.request.use(attactToken);
 
 const handleError = async (error: any) => {
-  if (error.response?.status === 401) {
-    await SecureStore.deleteItemAsync("token");
-    router.replace("/login");
+  const status = error.response?.status;
+  if (status === 401) {
+    const token = await SecureStore.getItemAsync("token");
+    if (token) {
+      await SecureStore.deleteItemAsync("token");
+      router.replace("/login");
+    }
   }
+
   return Promise.reject(error);
 };
 

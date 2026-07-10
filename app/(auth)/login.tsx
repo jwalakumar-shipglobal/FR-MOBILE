@@ -1,6 +1,7 @@
 import ReusableButton from "@/components/Element/AllButton";
 import PassInput, { BasicInput } from "@/components/Element/AllInput";
 import CardUI from "@/components/Element/CardUi";
+import { loginService } from "@/Service/AppService/Auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
@@ -9,12 +10,11 @@ import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import LoginSchema from "../../Schema/authSchema";
-import { postPublic } from "../../Service/apiService";
 import PublicLayout from "../layout/publicLayout";
 
 export default function Login() {
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const loginForm = useForm({
@@ -26,29 +26,27 @@ export default function Login() {
   });
 
   async function onSubmitHandler(data: any) {
-    if (!data.email && !data.password) return;
     try {
       setLoading(true);
-      setError(false);
-      const LoginPayLoad = {
-        email: data.email,
-        password: data.password,
-      };
-      const res = await postPublic("/auth/login", LoginPayLoad);
-      const token = res?.data?.token_details?.token;
-      if (!token) {
-        setError(true);
-        return;
-      }
+      setError(null);
+      const res = await loginService(data);
+      const token = res.data.token_details.token;
       await SecureStore.setItemAsync("token", token);
-      router.replace("/");
       Toast.show({
         type: "success",
         text1: "Login Successful",
       });
+      router.replace("/");
     } catch (error: any) {
-      console.log(error);
-      setError(true);
+      const message = error.response?.data?.message || "Something went wrong";
+      console.log("Setting error:", message);
+      setError(message);
+      Toast.show({
+        type: "error",
+        text1: message,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -81,7 +79,7 @@ export default function Login() {
                 />
                 {error && (
                   <Text className="text-xs font-medium text-destructive">
-                    Wrong email or password. Try again
+                    {error}
                   </Text>
                 )}
                 <Link

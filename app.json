@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jwalasgpl.sgfranchise",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "softwareKeyboardLayoutMode": "resize",
@@ -49,6 +53,7 @@
       "reactCompiler": true
     },
     "extra": {
+      "apiUrl": "process.env.EXPO_PUBLIC_API_URL",
       "router": {},
       "eas": {
         "projectId": "99d4b783-61c4-476a-a521-43f86a27d074"
