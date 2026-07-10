@@ -18,7 +18,7 @@ export async function loginService(payload: any) {
 
 export async function ChangePasswordService(payload: any) {
   try {
-    await postPublic("/auth/change-password", payload);
+    return await postPublic("/auth/change-password", payload);
   } catch (error) {
     throw error;
   }
@@ -26,7 +26,7 @@ export async function ChangePasswordService(payload: any) {
 
 export async function LogoutService() {
   try {
-    await getPrivate("/auth/logout");
+    return await getPrivate("/auth/logout");
   } catch (error) {
     throw error;
   }

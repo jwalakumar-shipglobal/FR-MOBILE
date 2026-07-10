@@ -13,12 +13,19 @@ const LoginSchema = z.object({
 
 export default LoginSchema;
 
+const PASSWORD_REGEX =
+  /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#()_\-+=\[\]{};:'",.<>\/\\|`~]).{6,}$/;
+
 export const changePassSchema = z
   .object({
     curr_password: z.string().min(1, "Current password is required"),
     new_password: z
       .string()
-      .min(6, "New password must be at least 6 characters"),
+      .min(6, "Password must be at least 6 characters")
+      .regex(
+        PASSWORD_REGEX,
+        "Password must contain at least one uppercase letter, one number, and one special character",
+      ),
     confirm_password: z.string().min(1, "Confirm password is required"),
   })
   .refine((data) => data.new_password === data.confirm_password, {

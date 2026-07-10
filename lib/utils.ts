@@ -12,3 +12,13 @@ export function toSentenceCase(str: any): string {
 
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+export function boolToNumber(value: boolean) {
+  if (value === true) {
+    return "1";
+  } else if (value === false) {
+    return "0";
+  } else {
+    return null;
+  }
+}

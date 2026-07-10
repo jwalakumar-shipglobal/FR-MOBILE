@@ -4,18 +4,23 @@ import PassInput from "@/components/Element/AllInput";
 import CardUI from "@/components/Element/CardUi";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { boolToNumber } from "@/lib/utils";
 import { changePassdefault, changePassSchema } from "@/Schema/authSchema";
+import { ChangePasswordService } from "@/Service/AppService/Auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { LockKeyhole } from "lucide-react-native";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import z from "zod";
 
 export default function changePassword() {
   const [logoutOtherdeviceCheck, setLogoutOtherdeviceCheck] =
     useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   type changePassSchetype = z.infer<typeof changePassSchema>;
 
   const ChangePasswordForm = useForm<changePassSchetype>({
@@ -24,15 +29,36 @@ export default function changePassword() {
   });
 
   async function changePassSubmit(data: changePassSchetype) {
+    setLoading(true);
     try {
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+      const payload = {
+        current_password: data.curr_password,
+        logout_all_devices: boolToNumber(logoutOtherdeviceCheck),
+        password: data.new_password,
+      };
+      const res = await ChangePasswordService(payload);
+      const message = res.message || "Password updated successfully";
+      Toast.show({
+        type: "success",
+        text1: message,
+      });
+      router.back();
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "SomeThings Went Wrong";
+      Toast.show({
+        type: "error",
+        text1: message,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <SubPageLayout className="flex-1 justify-center bg-gray-100 px-5">
+    <SubPageLayout className="flex-1 justify-center bg-gray-100 px-5 pt-10">
       <CardUI
         className="w-full rounded-2xl bg-white p-6 shadow-md"
         content={
@@ -73,19 +99,17 @@ export default function changePassword() {
               <View>
                 <View className="flex flex-row items-center gap-3">
                   <Checkbox
-                    id="terms"
+                    id="logoutOtherDevice"
                     checked={logoutOtherdeviceCheck}
-                    onCheckedChange={() =>
-                      setLogoutOtherdeviceCheck(!logoutOtherdeviceCheck)
+                    onCheckedChange={(checked) =>
+                      setLogoutOtherdeviceCheck(!!checked)
                     }
-                    className={` h-5 w-5 border-2 border-blue-600 bg-white data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600
-    `}
                   />
                   <Label
                     onPress={() => {
                       setLogoutOtherdeviceCheck(true);
                     }}
-                    htmlFor="terms"
+                    htmlFor="logoutOtherDevice"
                     className="text-black"
                   >
                     Log me out of all devices.
@@ -114,6 +138,7 @@ export default function changePassword() {
               <ReusableButton
                 title="Change Password"
                 onPress={ChangePasswordForm.handleSubmit(changePassSubmit)}
+                loading={loading}
               />
               <ReusableButton
                 title="Cancel"
