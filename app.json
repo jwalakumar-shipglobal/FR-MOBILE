@@ -59,6 +59,12 @@
         "projectId": "99d4b783-61c4-476a-a521-43f86a27d074"
       }
     },
-    "owner": "jwalasgpl"
+    "owner": "jwalasgpl",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/99d4b783-61c4-476a-a521-43f86a27d074"
+    }
   }
 }
