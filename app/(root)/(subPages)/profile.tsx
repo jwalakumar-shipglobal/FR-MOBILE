@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { toSentenceCase } from "@/lib/utils";
+import { formatDocumentValue, toSentenceCase } from "@/lib/utils";
 import { getPrivate } from "@/Service/apiService";
 import {
   ArrowDownToLine,
@@ -23,6 +23,7 @@ export default function Profile() {
   const [profileData, setProfileData] = useState<any>({});
   const [billingAdderss, setBillingAddress] = useState<any>({});
   const [pickupAddress, setPickAddress] = useState<any>({});
+  const [profileStatus, setProfileStatus] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   async function getProfileDetails() {
@@ -30,7 +31,7 @@ export default function Profile() {
       const res = await getPrivate("/auth/get-profile");
       setProfileData(res?.data);
     } catch (error) {
-      console.error("profile Error: ", error);
+      throw error;
     }
   }
 
@@ -39,7 +40,7 @@ export default function Profile() {
       const res = await getPrivate("/auth/get-billing-address");
       setBillingAddress(res?.data);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 
@@ -48,7 +49,16 @@ export default function Profile() {
       const res = await getPrivate("/pickup/get-pickup-address");
       setPickAddress(res?.data?.[0]);
     } catch (error) {
-      console.log(error);
+      throw error;
+    }
+  }
+
+  async function getStatuService() {
+    try {
+      const res = await getPrivate("/kyc/get-status");
+      setProfileStatus(res?.data?.meta_data.kyc_documents);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -82,6 +92,7 @@ export default function Profile() {
         getProfileDetails(),
         getBillingAddress(),
         getPickUpAddress(),
+        getStatuService(),
       ]);
     } catch (error: unknown) {
       console.log(error);
@@ -156,16 +167,29 @@ export default function Profile() {
               </View>
               <Separator className="bg-gray-300" />
               <View className="my-3">
-                <KYCDocument documentName="Aadhar" provided="Not Provided" />
-                <KYCDocument documentName="GST" provided="Not Provided" />
+                <KYCDocument
+                  documentName="Aadhar"
+                  key="aadhar_front"
+                  data={profileStatus}
+                />
+                <KYCDocument
+                  documentName="GST"
+                  key="gst"
+                  data={profileStatus}
+                />
                 <KYCDocument
                   documentName="Company PAN"
-                  provided="Not Provided"
+                  key="pan"
+                  data={profileStatus}
                 />
-                <KYCDocument documentName="Signature" provided="Not Provided" />
+                <KYCDocument
+                  documentName="Signature"
+                  key="signature"
+                  data={profileStatus}
+                />
                 <KYCDocument
                   documentName="Merchant Agreement"
-                  provided="Not Provided"
+                  data={profileStatus}
                 />
               </View>
             </View>
@@ -224,17 +248,32 @@ export default function Profile() {
 
 export function KYCDocument({
   documentName,
-  provided,
+  key,
+  data,
 }: {
   documentName: string;
-  provided: string;
+  key?: string;
+  data: any;
 }) {
+  console.log(data);
+
+  const document = Array.isArray(data)
+    ? data.find((item) => item.document_type === key)
+    : undefined;
+
+  
+      
+
+
+
   return (
     <View>
       <View className="flex-row justify-between items-center">
         <View>
           <Text className="text-xs text-gray-500">{documentName}</Text>
-          <Text className="font-semibold text-xs">{provided}</Text>
+          <Text className="font-semibold text-xs">
+            {formatDocumentValue(document?.document_value)}
+          </Text>
         </View>
         <Button className="bg-transparent">
           <Text className="text-gray-600 text-xs">Download</Text>

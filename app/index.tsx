@@ -70,8 +70,6 @@ export default function Index() {
           <Skeleton className="h-8 w-36 rounded-md bg-gray-300" />
           <Skeleton className="h-6 w-20 rounded-md bg-gray-300" />
         </View>
-
-        {/* Cards */}
         <View className="flex-row flex-wrap justify-between">
           {Array.from({ length: 5 }).map((_, index) => (
             <Skeleton
@@ -80,15 +78,11 @@ export default function Index() {
             />
           ))}
         </View>
-
-        {/* Chart/Card */}
         <View className="bg-white rounded-2xl p-4 mt-2">
           <Skeleton className="h-8 w-44 rounded-md bg-gray-300 mb-4" />
           <Skeleton className="h-32 w-full rounded-xl bg-gray-300" />
         </View>
       </View>
-
-      {/* Bottom Navigation */}
       <View className="h-20 bg-white border-t border-gray-200 flex-row justify-around items-center">
         {[1, 2, 3, 4].map((item) => (
           <View key={item} className="items-center">
@@ -96,8 +90,6 @@ export default function Index() {
             <Skeleton className="h-3 w-12 rounded bg-gray-300" />
           </View>
         ))}
-
-        {/* Floating Action Button */}
         <View className="absolute self-center -top-6">
           <Skeleton className="h-16 w-16 rounded-full bg-gray-400" />
         </View>

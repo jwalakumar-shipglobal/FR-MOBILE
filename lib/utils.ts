@@ -22,3 +22,18 @@ export function boolToNumber(value: boolean) {
     return null;
   }
 }
+
+
+export function formatDocumentValue(value: string): string {
+  if (!value) return "Not Provided";
+
+  const length = value.length;
+  const obscuredLength = Math.max(length - 4, 0);
+
+  const obscuredPart = "X"
+    .repeat(obscuredLength)
+    .replace(/(.{4})/g, "$1-")
+    .slice(0, -1);
+
+  return obscuredPart + "-" + value.slice(-4);
+}
