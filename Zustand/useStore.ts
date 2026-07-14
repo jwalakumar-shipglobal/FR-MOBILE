@@ -25,8 +25,8 @@ export const OrdersData = create((set) => ({
       ordersDeatils: { ...state.ordersDeatils, ...data },
     })),
   clearOrderDeatils: () => set({ ordersDeatils: null }),
-  setActiveState: (data: any) =>
-    set((state: any) => ({
+  setActiveState: (data: number) =>
+    set((state: number) => ({
       activeStep: data,
     })),
 }));

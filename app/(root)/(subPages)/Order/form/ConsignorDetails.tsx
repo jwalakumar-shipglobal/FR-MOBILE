@@ -8,11 +8,14 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
 
-export default function ConsignorDetails() {
+export default function ConsignorDetails({
+  setActiveState,
+}: {
+  setActiveState: (data: number) => void;
+}) {
   const [loading, setLoading] = useState(false);
   const setorderDetails = OrdersData((state: any) => state.addOrderDetails);
   const OrderDetails = OrdersData((state: any) => state.ordersDeatils);
-  const setActiveStep = OrdersData((state: any) => state.setActiveState);
 
   const consignorForm = useForm({
     resolver: zodResolver(SearchCustomerSchema),
@@ -28,7 +31,7 @@ export default function ConsignorDetails() {
     setLoading(true);
     try {
       setorderDetails(data);
-      setActiveStep(2);
+      setActiveState(2);
     } catch (error) {
       console.error(error);
     } finally {

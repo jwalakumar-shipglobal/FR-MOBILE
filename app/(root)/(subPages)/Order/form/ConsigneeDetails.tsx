@@ -25,13 +25,16 @@ import {
   View,
 } from "react-native";
 
-export default function ConsigneeDetails() {
+export default function ConsigneeDetails({
+  setActiveState,
+}: {
+  setActiveState: (data: number) => void;
+}) {
   const [country, setCountry] = useState<any>([]);
   const [state, setState] = useState<any>([]);
   const [billingstate, setBillingState] = useState<any>([]);
   const [billingCheck, setBillingCheck] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
-  const setActiveStep = OrdersData((state: any) => state.setActiveState);
   const orderdetail = OrdersData((state: any) => state.ordersDeatils);
   const setOrderdetails = OrdersData((state: any) => state.addOrderDetails);
 
@@ -69,7 +72,7 @@ export default function ConsigneeDetails() {
     setLoading(true);
     try {
       setOrderdetails({ consigneeDetails: data });
-      setActiveStep(3);
+      setActiveState(3);
     } catch (error) {
       console.log(error);
     } finally {
@@ -93,14 +96,14 @@ export default function ConsigneeDetails() {
     }
   }, [watchvalue.billing_Country]);
 
-  // useEffect(() => {
-  //   if (orderdetail?.consigneeDetails) {
-  //     personalDataForm.reset({
-  //       ...personalDataDefaultValue,
-  //       ...orderdetail.consigneeDetails,
-  //     });
-  //   }
-  // }, [orderdetail]);
+  useEffect(() => {
+    if (orderdetail?.consigneeDetails) {
+      personalDataForm.reset({
+        ...personalDataDefaultValue,
+        ...orderdetail.consigneeDetails,
+      });
+    }
+  }, [orderdetail]);
 
   return (
     <View className="py-3 px-2">
@@ -150,7 +153,7 @@ export default function ConsigneeDetails() {
             renderItem={({ item }) => (
               <BasicInput
                 placeholder={item.placeholder}
-                required={item.isRequired}
+                required={item.isRequired ?? true}
                 label={item.label}
                 name={item.name}
                 form={personalDataForm}
@@ -192,7 +195,7 @@ export default function ConsigneeDetails() {
               <BasicComboBox
                 label="Country"
                 list={country}
-                fOption="Select Country"
+                // fOption="Select Country"
                 name="billing_Country"
                 valueKey="country_iso2"
                 labelKey="country_name"
@@ -201,7 +204,7 @@ export default function ConsigneeDetails() {
               <BasicComboBox
                 label="State"
                 list={billingstate}
-                fOption="Select State"
+                // fOption="Select State"
                 name="billing_State"
                 valueKey="state_id"
                 labelKey="state_name"

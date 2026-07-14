@@ -12,6 +12,7 @@ export interface ShipmentDetailsProps {
   getShiperRates: any;
   loading: boolean;
   setLoading: (data: boolean) => void;
+  setActiveState: (data: number) => void;
 }
 
 export interface ShipperRatesProps {

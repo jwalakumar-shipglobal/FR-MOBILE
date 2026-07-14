@@ -27,7 +27,7 @@ const ADDRESS_FIELDS: any = [
     name: "landMark",
     label: "Landmark",
     placeholder: "Enter Landmark ...",
-    isRequired: true,
+    isRequired: false,
     type: "text",
   },
   {
@@ -44,7 +44,7 @@ const ADDRESS_FIELDS: any = [
   },
 ];
 
-export default ADDRESS_FIELDS
+export default ADDRESS_FIELDS;
 
 export const BILLING_FIELDS: any = [
   {
@@ -86,12 +86,14 @@ export const PERSONAL_DETAILS: any = [
     label: "First Name",
     placeholder: "Enter First Name ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "lname",
     label: "Last Name",
     placeholder: "Enter Last Name ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "mobile",
@@ -99,6 +101,7 @@ export const PERSONAL_DETAILS: any = [
     placeholder: "Enter Mobile Number ...",
     type: "tel",
     keyBoardType: "phone-pad",
+    isRequired: true,
   },
   {
     name: "email",
@@ -106,6 +109,7 @@ export const PERSONAL_DETAILS: any = [
     placeholder: "Enter Email ...",
     type: "email",
     keyBoardType: "email-address",
+    isRequired: true,
   },
 ];
 

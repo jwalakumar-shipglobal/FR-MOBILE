@@ -18,7 +18,7 @@ interface BasicInputProps {
 export function BasicInput({
   placeholder,
   label,
-  required,
+  required = false,
   name,
   className,
   form,

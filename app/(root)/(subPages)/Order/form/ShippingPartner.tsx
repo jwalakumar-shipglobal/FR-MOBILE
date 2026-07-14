@@ -9,8 +9,10 @@ import { FlatList, ScrollView, Text, View } from "react-native";
 
 export default function ShippingPartner({
   shiperRates,
+  setActiveState,
 }: {
   shiperRates: ShipperRatesProps | null;
+  setActiveState: (data: number) => void;
 }) {
   const setActiveStep = OrdersData((state: any) => state.setActiveState);
   const orderdetail = OrdersData((state: any) => state.ordersDeatils);

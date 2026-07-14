@@ -23,9 +23,10 @@ export default function ShipmentDetails({
   getShiperRates,
   loading,
   setLoading,
+  setActiveState,
 }: ShipmentDetailsProps) {
   const [currency, setCurreency] = useState([]);
-  const setActiveStep = OrdersData((state: any) => state.setActiveState);
+  // const setActiveStep = OrdersData((state: any) => state.setActiveState);
   const orderdetail = OrdersData((state: any) => state.ordersDeatils);
   const setOrderdetails = OrdersData((state: any) => state.addOrderDetails);
   const ShipmentDataForm = useForm({
@@ -39,7 +40,7 @@ export default function ShipmentDetails({
     try {
       setOrderdetails({ ShipmentData: data });
       getShiperRates({ ...orderdetail, ShipmentData: data });
-      setActiveStep(4);
+      setActiveState(4);
     } catch (error) {
       console.log(error);
     } finally {
@@ -87,7 +88,7 @@ export default function ShipmentDetails({
         valueKey="currency_iso_code"
         labelKey="currency_iso_code"
         label="Select Currency"
-        fOption="Select Currency"
+        // fOption="Select Currency"
         list={currency}
         placeholder="Select Currency"
         name="invoice_currency"

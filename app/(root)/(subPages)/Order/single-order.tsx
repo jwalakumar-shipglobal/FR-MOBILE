@@ -14,6 +14,7 @@ import ShippingPartner from "./form/ShippingPartner";
 
 export default function SingleOrder() {
   const [loading, setLoading] = useState(false);
+  const [activeState, setActiveState] = useState<number>(1);
   const [shiperRates, setShiperRates] = useState<ShipperRatesProps | null>(
     null,
   );
@@ -77,29 +78,43 @@ export default function SingleOrder() {
       <View className="flex-col gap-y-3">
         <OrderStepForm
           title="Consignor Details"
-          content={<ConsignorDetails />}
+          content={<ConsignorDetails setActiveState={setActiveState} />}
           step={1}
+          activeState={activeState}
+          setActiveState={setActiveState}
         />
         <OrderStepForm
           title="Consignee Details"
-          content={<ConsigneeDetails />}
+          content={<ConsigneeDetails setActiveState={setActiveState} />}
           step={2}
+          activeState={activeState}
+          setActiveState={setActiveState}
         />
         <OrderStepForm
           title="Shipment Information"
           step={3}
+          activeState={activeState}
+          setActiveState={setActiveState}
           content={
             <ShipmentDetails
               getShiperRates={getShiperRates}
               loading={loading}
               setLoading={setLoading}
+              setActiveState={setActiveState}
             />
           }
         />
         <OrderStepForm
           title="Select Shipping Partner"
           step={4}
-          content={<ShippingPartner shiperRates={shiperRates} />}
+          activeState={activeState}
+          setActiveState={setActiveState}
+          content={
+            <ShippingPartner
+              shiperRates={shiperRates}
+              setActiveState={setActiveState}
+            />
+          }
         />
       </View>
       {/* <OrderSummary /> */}
@@ -111,26 +126,31 @@ interface OrderStepFormProps {
   title: string;
   content: ReactNode;
   step: number;
+  activeState: number;
+  setActiveState: (data: number) => void;
 }
 
-function OrderStepForm({ title, content, step }: OrderStepFormProps) {
-  const activestep = OrdersData((state: any) => state.activeStep);
-  const setActiveStep = OrdersData((state: any) => state.setActiveState);
-
-  const changeBtnClick = (step: number) => {
-    setActiveStep(step);
+function OrderStepForm({
+  title,
+  content,
+  step,
+  activeState,
+  setActiveState,
+}: OrderStepFormProps) {
+  const changeBtnClick = () => {
+    setActiveState(step);
   };
 
   return (
     <View>
       <View
-        className={`flex-row justify-between items-center border rounded-t border-gray-500 p-2 ${activestep == step ? "rounded-t bg-gray-100" : "rounded bg-white"}`}
+        className={`flex-row justify-between items-center border rounded-t border-gray-500 p-2 ${activeState == step ? "rounded-t bg-gray-100" : "rounded bg-white"}`}
       >
         <View className="flex-row gap-x-2.5 items-center">
           <View
-            className={`h-7 w-7 flex items-center justify-center p-1 rounded ${activestep > step ? "bg-green-500" : activestep == step ? "bg-black" : "bg-gray-600"} `}
+            className={`h-7 w-7 flex items-center justify-center p-1 rounded ${activeState > step ? "bg-green-500" : activeState == step ? "bg-black" : "bg-gray-600"} `}
           >
-            {activestep > step ? (
+            {activeState > step ? (
               <Check size={15} color={"white"} />
             ) : (
               <Text className="text-white">{step}</Text>
@@ -138,20 +158,15 @@ function OrderStepForm({ title, content, step }: OrderStepFormProps) {
           </View>
           <Text>{title}</Text>
         </View>
-        {activestep > step && (
-          <Button
-            className="bg-transparent"
-            onPress={() => {
-              changeBtnClick(step);
-            }}
-          >
+        {activeState > step && (
+          <Button className="bg-transparent" onPress={changeBtnClick}>
             <Text className="text-blue-900 underline font-semibold">
               Change
             </Text>
           </Button>
         )}
       </View>
-      {activestep == step && (
+      {activeState == step && (
         <View className="border-x border-b bg-white border-gray-500 rounded-b">
           {content}
         </View>
