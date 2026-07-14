@@ -1,12 +1,14 @@
+import ReusableButton from "@/components/Element/AllButton";
+import CardUI from "@/components/Element/CardUi";
 import SelectDropDown from "@/components/Element/select";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import customerProps from "@/interface/order";
 import { SearchCustomerSchema } from "@/Schema/CSBIVSchema";
 import { OrdersData } from "@/Zustand/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function ConsignorDetails({
   setActiveState,
@@ -46,7 +48,7 @@ export default function ConsignorDetails({
   }, [OrderDetails?.userId]);
 
   return (
-    <View className="px-2 py-2">
+    <View className="space-y-4">
       <SelectDropDown
         data={customers}
         label="Select User"
@@ -55,37 +57,64 @@ export default function ConsignorDetails({
         name="userId"
       />
       {watchValue && (
-        <View className="flex-col gap-y-2 mt-3">
-          <View>
-            <Text className="font-semibold">
-              {watchValue?.first_name} {watchValue?.last_name}
-            </Text>
-            <Text>
-              {Math.floor(Math.random() * (9999 - 1000 + 1))}
-              {watchValue?.first_name}@gmail.com {watchValue?.phone}
-            </Text>
-          </View>
-          <View>
-            <Text className="text-gray-400 font-semibold">Address</Text>
-            <Text>{watchValue?.address}</Text>
-          </View>
-          <View>
-            <Text className="text-gray-400 font-semibold">Document Type</Text>
-            <Text>{watchValue?.document}</Text>
-          </View>
-        </View>
+        <CardUI
+          className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4"
+          content={
+            <>
+              <View className="flex-row items-center justify-between">
+                <View>
+                  <Text className="text-lg font-semibold text-black">
+                    {watchValue.first_name} {watchValue.last_name}
+                  </Text>
+                  <Text className="text-sm text-gray-500">
+                    Customer Details
+                  </Text>
+                </View>
+                <Badge className="bg-blue-900">
+                  <Text className="text-xs font-semibold text-white">
+                    Active
+                  </Text>
+                </Badge>
+              </View>
+              <View className="my-4 h-px bg-blue-100" />
+              <View className="space-y-4">
+                <View className="flex-row justify-between">
+                  <Text className="text-gray-500">Email</Text>
+                  <Text className="font-medium text-black">
+                    {`${Math.floor(Math.random() * 9000 + 1000)}${
+                      watchValue.first_name
+                    }@gmail.com`}
+                  </Text>
+                </View>
+                <View className="mt-3 flex-row justify-between">
+                  <Text className="text-gray-500">Phone</Text>
+                  <Text className="font-medium text-black">
+                    {watchValue.phone}
+                  </Text>
+                </View>
+                <View className="mt-3">
+                  <Text className="text-gray-500">Address</Text>
+                  <Text className="mt-1 text-black">{watchValue.address}</Text>
+                </View>
+                <View className="mt-3 flex-row justify-between">
+                  <Text className="text-gray-500">Document</Text>
+                  <View className="rounded-lg bg-white border border-blue-200 px-3 py-1">
+                    <Text className="font-semibold text-blue-700">
+                      {watchValue.document}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </>
+          }
+        />
       )}
-      <View className="flex items-end my-3">
-        <Button
+      <View className="mt-6">
+        <ReusableButton
+          title="Continue"
+          loading={loading}
           onPress={consignorForm.handleSubmit(onSubmitHandler)}
-          className="bg-blue-700"
-        >
-          {loading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text className="text-white font-semibold">Continue</Text>
-          )}
-        </Button>
+        />
       </View>
     </View>
   );

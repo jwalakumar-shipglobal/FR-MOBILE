@@ -1,5 +1,6 @@
 import SubPageLayout from "@/app/layout/subPageLayout";
 import BreadCumb from "@/components/Element/BreadCumb";
+import CardUI from "@/components/Element/CardUi";
 import { Button } from "@/components/ui/button";
 import { ShipperRatesProps } from "@/interface/order";
 import postPrivate from "@/Service/apiService";
@@ -140,38 +141,64 @@ function OrderStepForm({
   const changeBtnClick = () => {
     setActiveState(step);
   };
+  const isActive = activeState === step;
+  const isCompleted = activeState > step;
 
   return (
-    <View>
-      <View
-        className={`flex-row justify-between items-center border rounded-t border-gray-500 p-2 ${activeState == step ? "rounded-t bg-gray-100" : "rounded bg-white"}`}
-      >
-        <View className="flex-row gap-x-2.5 items-center">
-          <View
-            className={`h-7 w-7 flex items-center justify-center p-1 rounded ${activeState > step ? "bg-green-500" : activeState == step ? "bg-black" : "bg-gray-600"} `}
-          >
-            {activeState > step ? (
-              <Check size={15} color={"white"} />
-            ) : (
-              <Text className="text-white">{step}</Text>
+    <CardUI
+      className={`rounded-lg border transition-all duration-200 px-2 ${
+        isActive ? "border-blue-200 shadow-sm" : "border-gray-200"
+      }`}
+      content={
+        <>
+          <View className="flex-row items-center justify-between py-1">
+            <View className="flex-row items-center gap-x-2">
+              <View
+                className={`h-9 w-9 items-center justify-center rounded-full ${
+                  isCompleted
+                    ? "bg-green-600"
+                    : isActive
+                      ? "bg-blue-900"
+                      : "bg-gray-200"
+                }`}
+              >
+                {isCompleted ? (
+                  <Check size={18} color="white" />
+                ) : (
+                  <Text
+                    className={`font-semibold ${
+                      isActive ? "text-white" : "text-black"
+                    }`}
+                  >
+                    {step}
+                  </Text>
+                )}
+              </View>
+              <View>
+                <Text className="text-base font-semibold text-black">
+                  {title}
+                </Text>
+                <Text className="text-xs text-gray-500">Step {step}</Text>
+              </View>
+            </View>
+            {isCompleted && (
+              <Button
+                variant="ghost"
+                className="h-8 px-2 bg-transparent"
+                onPress={changeBtnClick}
+              >
+                <Text className="font-medium text-blue-600">Change</Text>
+              </Button>
             )}
           </View>
-          <Text>{title}</Text>
-        </View>
-        {activeState > step && (
-          <Button className="bg-transparent" onPress={changeBtnClick}>
-            <Text className="text-blue-900 underline font-semibold">
-              Change
-            </Text>
-          </Button>
-        )}
-      </View>
-      {activeState == step && (
-        <View className="border-x border-b bg-white border-gray-500 rounded-b">
-          {content}
-        </View>
-      )}
-    </View>
+          {isActive && (
+            <View className="mt-2 border-t border-gray-100 pt-">
+              {content}
+            </View>
+          )}
+        </>
+      }
+    />
   );
 }
 
