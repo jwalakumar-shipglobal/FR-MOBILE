@@ -213,9 +213,7 @@ export function BasicComboBox({
                 </Text>
                 <ChevronDown size={22} color="black" />
               </TouchableOpacity>
-              {error && (
-                <Text className="mt-1 text-red-500">{error.message}</Text>
-              )}
+              {error && <Text className="text-red-500">{error.message}</Text>}
               <BottomSheetModal
                 ref={bottomSheetRef}
                 index={0}

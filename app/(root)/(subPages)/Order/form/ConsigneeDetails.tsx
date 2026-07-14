@@ -1,3 +1,9 @@
+import ReusableButton from "@/components/Element/AllButton";
+import { BasicInput } from "@/components/Element/AllInput";
+import CardUI from "@/components/Element/CardUi";
+import { BasicComboBox } from "@/components/Element/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import ADDRESS_FIELDS, {
   BILLING_FIELDS,
   PERSONAL_DETAILS,
@@ -8,22 +14,11 @@ import {
 } from "@/Schema/CSBIVSchema";
 import postPrivate, { getPublic } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
-// import { OrdersDeatils } from "@/app/Zustand/useStore";
-import { BasicInput } from "@/components/Element/AllInput";
-import { BasicComboBox } from "@/components/Element/select";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ReceiptText, Truck, User } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Text, View } from "react-native";
 
 export default function ConsigneeDetails({
   setActiveState,
@@ -106,105 +101,124 @@ export default function ConsigneeDetails({
   }, [orderdetail]);
 
   return (
-    <View className="py-3 px-2">
-      <Text className="text-lg font-semibold">Personal Details</Text>
-      <View>
-        <View className="px-2">
-          <FlatList
-            data={PERSONAL_DETAILS}
-            renderItem={({ item }) => (
-              <BasicInput
-                placeholder={item.placeholder}
-                required={item.isRequired}
-                label={item.label}
-                name={item.name}
-                form={personalDataForm}
-                keyBoardType={item.keyBoardType}
-              />
-            )}
-            scrollEnabled={false}
-            keyExtractor={(items, index) => index.toString()}
-          />
-        </View>
-        <Text className="text-lg font-semibold my-3">Shipping Address</Text>
-        <View className="px-2 flex-col gap-y-2">
-          <BasicComboBox
-            label="Country"
-            list={country}
-            fOption="Select Country"
-            name="country"
-            valueKey="country_iso2"
-            labelKey="country_name"
-            form={personalDataForm}
-            required={true}
-          />
-          <BasicComboBox
-            label="State"
-            list={state}
-            fOption="Select State"
-            name="state"
-            valueKey="state_id"
-            labelKey="state_name"
-            form={personalDataForm}
-            required={true}
-          />
-          <FlatList
-            data={ADDRESS_FIELDS}
-            renderItem={({ item }) => (
-              <BasicInput
-                placeholder={item.placeholder}
-                required={item.isRequired ?? true}
-                label={item.label}
-                name={item.name}
-                form={personalDataForm}
-                keyBoardType={item.keyBoardType}
-              />
-            )}
-            scrollEnabled={false}
-            keyExtractor={(Item, index) => index.toString()}
-          />
-        </View>
-        <View className="flex-row gap-x-2 px-2 my-2">
-          <Checkbox
-            id="check"
-            checked={billingCheck}
-            onCheckedChange={() => {
-              const updatedValue = !billingCheck;
-              setBillingCheck(updatedValue);
-              personalDataForm.setValue("billingCheck", updatedValue);
-            }}
-          />
-          <Label
-            htmlFor="check"
-            className="text-black"
-            onPress={Platform.select({
-              native: () => {
-                const updatedValue = !billingCheck;
-                setBillingCheck(updatedValue);
-                personalDataForm.setValue("billingCheck", updatedValue);
-              },
-            })}
-          >
-            Billing address is same as shipping address
-          </Label>
-        </View>
-        {!billingCheck && (
-          <View>
-            <Text className="text-lg font-semibold my-3">Billing Address</Text>
-            <View>
+    <View className="px-1 py-2 gap-y-5">
+      <CardUI
+        heading={
+          <View className="flex-row gap-x-1 items-center">
+            <User size={17} />
+            <Text className="text-base font-semibold">Personal Details</Text>
+          </View>
+        }
+        className="border border-blue-100 shadow-sm"
+        content={
+          <View className="gap-y-3 mt-2">
+            <FlatList
+              data={PERSONAL_DETAILS}
+              scrollEnabled={false}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={({ item }) => (
+                <BasicInput
+                  placeholder={item.placeholder}
+                  required={item.isRequired}
+                  label={item.label}
+                  name={item.name}
+                  form={personalDataForm}
+                  keyBoardType={item.keyBoardType}
+                />
+              )}
+            />
+          </View>
+        }
+      />
+      <CardUI
+        heading={
+          <View className="flex-row gap-x-1 items-center">
+            <Truck size={17} />
+            <Text className="text-base font-semibold">Shipping Address</Text>
+          </View>
+        }
+        className="border border-blue-100 shadow-sm"
+        content={
+          <View className="gap-y-3 mt-2">
+            <BasicComboBox
+              label="Country"
+              list={country}
+              fOption="Select Country"
+              name="country"
+              valueKey="country_iso2"
+              labelKey="country_name"
+              form={personalDataForm}
+              required
+            />
+
+            <BasicComboBox
+              label="State"
+              list={state}
+              fOption="Select State"
+              name="state"
+              valueKey="state_id"
+              labelKey="state_name"
+              form={personalDataForm}
+              required
+            />
+
+            <FlatList
+              data={ADDRESS_FIELDS}
+              scrollEnabled={false}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={({ item }) => (
+                <BasicInput
+                  placeholder={item.placeholder}
+                  required={item.isRequired}
+                  label={item.label}
+                  name={item.name}
+                  form={personalDataForm}
+                  keyBoardType={item.keyBoardType}
+                />
+              )}
+            />
+          </View>
+        }
+      />
+      <View className="flex-row items-center gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
+        <Checkbox
+          id="check"
+          checked={billingCheck}
+          onCheckedChange={() => {
+            const updated = !billingCheck;
+            setBillingCheck(updated);
+            personalDataForm.setValue("billingCheck", updated);
+          }}
+        />
+        <Label htmlFor="check" className="flex-1 text-black font-medium">
+          Billing address is same as shipping address
+        </Label>
+      </View>
+      {!billingCheck && (
+        <CardUI
+          heading={
+            <View className="flex-row gap-x-1 items-center">
+              <ReceiptText size={17} />
+              <Text className="text-base font-semibold">Billing Address</Text>
+            </View>
+          }
+          className="border border-blue-100 shadow-sm"
+          content={
+            <View className="gap-y-3 mt-2">
               <BasicComboBox
                 label="Country"
                 list={country}
-                // fOption="Select Country"
                 name="billing_Country"
                 valueKey="country_iso2"
                 labelKey="country_name"
+                required
+                fOption="Select Country"
                 form={personalDataForm}
               />
               <BasicComboBox
                 label="State"
+                fOption="Select State"
                 list={billingstate}
-                // fOption="Select State"
                 name="billing_State"
                 valueKey="state_id"
                 labelKey="state_name"
@@ -212,6 +226,8 @@ export default function ConsigneeDetails({
               />
               <FlatList
                 data={BILLING_FIELDS}
+                scrollEnabled={false}
+                keyExtractor={(_, index) => index.toString()}
                 renderItem={({ item }) => (
                   <BasicInput
                     placeholder={item.placeholder}
@@ -222,24 +238,17 @@ export default function ConsigneeDetails({
                     keyBoardType={item.keyBoardType}
                   />
                 )}
-                scrollEnabled={false}
-                keyExtractor={(Item, index) => index.toString()}
               />
             </View>
-          </View>
-        )}
-        <View className="flex items-end my-3">
-          <Button
-            className="bg-blue-900"
-            onPress={personalDataForm.handleSubmit(OnSubmitHandler)}
-          >
-            {loading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text className="text-white font-semibold">Continue</Text>
-            )}
-          </Button>
-        </View>
+          }
+        />
+      )}
+      <View className="mt-2 items-end">
+        <ReusableButton
+          title="Continue"
+          loading={loading}
+          onPress={personalDataForm.handleSubmit(OnSubmitHandler)}
+        />
       </View>
     </View>
   );
