@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { downloadFile, downloadFileByURL } from "@/lib/downloaderHelper";
 import { formatDocumentValue, toSentenceCase } from "@/lib/utils";
-import { getPrivate } from "@/Service/apiService";
+import postPrivate, { getPrivate } from "@/Service/apiService";
 import {
   ArrowDownToLine,
   IdCardLanyard,
@@ -25,6 +26,9 @@ export default function Profile() {
   const [pickupAddress, setPickAddress] = useState<any>({});
   const [profileStatus, setProfileStatus] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
+
+  const merchantAgreement =
+    profileData?.agreement_documents_info?.["merchant-agreement"];
 
   async function getProfileDetails() {
     try {
@@ -169,28 +173,44 @@ export default function Profile() {
               <View className="my-3">
                 <KYCDocument
                   documentName="Aadhar"
-                  key="aadhar_front"
+                  documentkey="aadhar_front"
                   data={profileStatus}
                 />
                 <KYCDocument
                   documentName="GST"
-                  key="gst"
+                  documentkey="gst"
                   data={profileStatus}
                 />
                 <KYCDocument
                   documentName="Company PAN"
-                  key="pan"
+                  documentkey="pan"
                   data={profileStatus}
                 />
                 <KYCDocument
                   documentName="Signature"
-                  key="signature"
+                  documentkey="signature"
                   data={profileStatus}
                 />
-                <KYCDocument
-                  documentName="Merchant Agreement"
-                  data={profileStatus}
-                />
+                <View className="flex-row justify-between items-center">
+                  <View>
+                    <Text className="text-xs text-gray-500">
+                      Merchant Agreement
+                    </Text>
+                    <Text className="font-semibold text-xs">
+                      {merchantAgreement?.file_path ? "" : "Not Provided"}
+                    </Text>
+                  </View>
+                  <Button
+                    className="bg-transparent"
+                    disabled={!merchantAgreement?.file_path}
+                    onPress={() =>
+                      downloadFileByURL(merchantAgreement.file_path)
+                    }
+                  >
+                    <Text className="text-gray-600 text-xs">Download</Text>
+                    <ArrowDownToLine size={13} color={"gray"} />
+                  </Button>
+                </View>
               </View>
             </View>
             <View className="border border-gray-300 px-3 py-1 rounded-lg">
@@ -248,23 +268,42 @@ export default function Profile() {
 
 export function KYCDocument({
   documentName,
-  key,
+  documentkey,
   data,
 }: {
   documentName: string;
-  key?: string;
+  documentkey?: string;
   data: any;
 }) {
-  console.log(data);
-
   const document = Array.isArray(data)
-    ? data.find((item) => item.document_type === key)
+    ? data.find((item) => item.document_type === documentkey)
     : undefined;
 
-  
-      
+  async function handleDownload(uuid: string) {
+    try {
+      const response = await postPrivate("/kyc/download", {
+        uuid,
+      });
 
+      await downloadFile({
+        response,
+        defaultFileName: "document",
+      });
 
+      Toast.show({
+        type: "success",
+        text1: "File downloaded successfully",
+      });
+    } catch (error: any) {
+      Toast.show({
+        type: "error",
+        text1:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong",
+      });
+    }
+  }
 
   return (
     <View>
@@ -275,7 +314,19 @@ export function KYCDocument({
             {formatDocumentValue(document?.document_value)}
           </Text>
         </View>
-        <Button className="bg-transparent">
+        <Button
+          className="bg-transparent"
+          onPress={() => {
+            if (document?.uuid) {
+              handleDownload(document.uuid);
+            } else {
+              Toast.show({
+                type: "error",
+                text1: "Document not found",
+              });
+            }
+          }}
+        >
           <Text className="text-gray-600 text-xs">Download</Text>
           <ArrowDownToLine size={13} color={"gray"} />
         </Button>

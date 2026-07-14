@@ -1,6 +1,6 @@
+import { Buffer } from "buffer";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
-import { Buffer } from "buffer";
 
 type DownloadOptions = {
   response: any;
@@ -19,7 +19,7 @@ export const downloadFile = async ({
 
     if (disposition) {
       const match = disposition.match(
-        /filename\*?=(?:UTF-8'')?["']?([^;"']+)["']?/i
+        /filename\*?=(?:UTF-8'')?["']?([^;"']+)["']?/i,
       );
 
       if (match?.[1]) {
@@ -58,3 +58,26 @@ export const downloadFile = async ({
     throw error;
   }
 };
+
+import Toast from "react-native-toast-message";
+
+export async function downloadFileByURL(url: string) {
+  try {
+    const fileUri = FileSystem.documentDirectory + "merchant-agreement.pdf";
+    const result = await FileSystem.downloadAsync(url, fileUri);
+
+    Toast.show({
+      type: "success",
+      text1: "File downloaded successfully",
+    });
+
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(result.uri);
+    }
+  } catch (error: any) {
+    Toast.show({
+      type: "error",
+      text1: error.message || "Download failed",
+    });
+  }
+}
