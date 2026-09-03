@@ -190,13 +190,11 @@ export function BasicComboBox({
         {label}
         {required && <Text className="text-red-500">*</Text>}
       </Text>
-
       <Controller
         control={form.control}
         name={name}
         render={({ field: { value, onChange }, fieldState: { error } }) => {
           const selected = list.find((item) => item[valueKey] === value);
-
           return (
             <>
               <TouchableOpacity

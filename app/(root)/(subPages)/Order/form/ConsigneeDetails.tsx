@@ -10,7 +10,7 @@ import ADDRESS_FIELDS, {
 } from "@/lib/Mock/CSBIVData";
 import {
   personalDataDefaultValue,
-  personalDataschema,
+  personalDataSchema,
 } from "@/Schema/CSBIVSchema";
 import postPrivate, { getPublic } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
@@ -27,17 +27,17 @@ export default function ConsigneeDetails({
 }) {
   const [country, setCountry] = useState<any>([]);
   const [state, setState] = useState<any>([]);
-  const [billingstate, setBillingState] = useState<any>([]);
+  const [billingState, setBillingState] = useState<any>([]);
   const [billingCheck, setBillingCheck] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
-  const orderdetail = OrdersData((state: any) => state.ordersDeatils);
-  const setOrderdetails = OrdersData((state: any) => state.addOrderDetails);
+  const orderDetails = OrdersData((state: any) => state.ordersDeatils);
+  const setOrderDetails = OrdersData((state: any) => state.addOrderDetails);
 
   const personalDataForm = useForm({
-    resolver: zodResolver(personalDataschema),
+    resolver: zodResolver(personalDataSchema),
     defaultValues: personalDataDefaultValue,
   });
-  const watchvalue = personalDataForm.watch();
+  const watchValue = personalDataForm.watch();
 
   async function CountryApiCall() {
     try {
@@ -66,7 +66,7 @@ export default function ConsigneeDetails({
   async function OnSubmitHandler(data: any) {
     setLoading(true);
     try {
-      setOrderdetails({ consigneeDetails: data });
+      setOrderDetails({ consigneeDetails: data });
       setActiveState(3);
     } catch (error) {
       console.log(error);
@@ -80,25 +80,25 @@ export default function ConsigneeDetails({
   }, []);
 
   useEffect(() => {
-    if (watchvalue.country) {
-      getStates(watchvalue.country, setState);
+    if (watchValue.country) {
+      getStates(watchValue.country, setState);
     }
-  }, [watchvalue.country]);
+  }, [watchValue.country]);
 
   useEffect(() => {
-    if (watchvalue.billing_Country) {
-      getStates(watchvalue.billing_Country, setBillingState);
+    if (watchValue.billing_Country) {
+      getStates(watchValue.billing_Country, setBillingState);
     }
-  }, [watchvalue.billing_Country]);
+  }, [watchValue.billing_Country]);
 
   useEffect(() => {
-    if (orderdetail?.consigneeDetails) {
+    if (orderDetails?.consigneeDetails) {
       personalDataForm.reset({
         ...personalDataDefaultValue,
-        ...orderdetail.consigneeDetails,
+        ...orderDetails.consigneeDetails,
       });
     }
-  }, [orderdetail]);
+  }, [orderDetails]);
 
   return (
     <View className="px-1 py-2 gap-y-5">
@@ -150,7 +150,6 @@ export default function ConsigneeDetails({
               form={personalDataForm}
               required
             />
-
             <BasicComboBox
               label="State"
               list={state}
@@ -161,7 +160,6 @@ export default function ConsigneeDetails({
               form={personalDataForm}
               required
             />
-
             <FlatList
               data={ADDRESS_FIELDS}
               scrollEnabled={false}
@@ -218,7 +216,7 @@ export default function ConsigneeDetails({
               <BasicComboBox
                 label="State"
                 fOption="Select State"
-                list={billingstate}
+                list={billingState}
                 name="billing_State"
                 valueKey="state_id"
                 labelKey="state_name"

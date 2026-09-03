@@ -13,7 +13,7 @@ export const SearchCustomerSchema = z.object({
     .refine((val) => val !== null, { message: "Please Select Customer" }),
 });
 
-export const personalDataschema = z
+export const personalDataSchema = z
   .object({
     fname: z.string().nonempty("First name is required"),
     lname: z.string().nonempty("Last name is required"),
@@ -118,7 +118,7 @@ const ProductSchema = z.object({
   item_igst: z.string().nonempty("Select IGST"),
 });
 
-export const ShipmentinfoSchema = z.object({
+export const ShipmentInfoSchema = z.object({
   invoice_date: z.date(),
   invoice_currency: z.string().nonempty("Select currency"),
   invoice_number: z.string().nonempty("Please enter invoice number"),
@@ -126,27 +126,27 @@ export const ShipmentinfoSchema = z.object({
   ioss_number: z.string().optional(),
   dead_weight: z.coerce
     .number()
-    .min(0.001, "Weight must be atleast 0.01 KG")
+    .min(0.001, "Weight must be atLeast 0.01 KG")
     .max(10, "Weight cannot be more than 10 KG"),
   pro_length: z.coerce
     .number()
-    .min(1, "Length must be atleast 1 cm")
+    .min(1, "Length must be atLeast 1 cm")
     .max(120, "Length cannot be more than 120 cm"),
   pro_breadth: z.coerce
     .number()
-    .min(1, "Breadth must be atleast 1 cm")
-    .max(120, "Length cannot be more than 120 cm"),
+    .min(1, "Breadth must be atLeast 1 cm")
+    .max(120, "Breadth cannot be more than 120 cm"),
   pro_height: z.coerce
     .number()
-    .min(1, "Height must be atleast 1 cm")
-    .max(120, "Breadth cannot be more than 120 cm"),
+    .min(1, "Height must be atLeast 1 cm")
+    .max(120, "Height cannot be more than 120 cm"),
   products: z
     .array(ProductSchema)
     .min(1, "At least one product is required")
-    .max(25, "Maximux 25 Product add Details"),
+    .max(25, "Maximum 25 Product add Details"),
 });
 
-export const ShipmentinfoDefaultValues = {
+export const ShipmentInfoDefaultValues = {
   invoice_date: new Date(),
   invoice_currency: "",
   invoice_number: "",

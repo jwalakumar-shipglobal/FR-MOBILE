@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { ShipmentDetailsProps } from "@/interface/order";
 import { SHIPMENT_DETAILS, SHIPMENT_SIZE } from "@/lib/Mock/CSBIVData";
 import {
-  ShipmentinfoDefaultValues,
-  ShipmentinfoSchema,
+  ShipmentInfoDefaultValues,
+  ShipmentInfoSchema,
 } from "@/Schema/CSBIVSchema";
 import { getPrivate } from "@/Service/apiService";
 import { OrdersData } from "@/Zustand/useStore";
@@ -27,19 +27,19 @@ export default function ShipmentDetails({
 }: ShipmentDetailsProps) {
   const [currency, setCurreency] = useState([]);
   // const setActiveStep = OrdersData((state: any) => state.setActiveState);
-  const orderdetail = OrdersData((state: any) => state.ordersDeatils);
-  const setOrderdetails = OrdersData((state: any) => state.addOrderDetails);
+  const orderDetails = OrdersData((state: any) => state.ordersDeatils);
+  const setOrderDetails = OrdersData((state: any) => state.addOrderDetails);
   const ShipmentDataForm = useForm({
-    resolver: zodResolver(ShipmentinfoSchema),
-    defaultValues: ShipmentinfoDefaultValues,
+    resolver: zodResolver(ShipmentInfoSchema),
+    defaultValues: ShipmentInfoDefaultValues,
     shouldUnregister: false,
   });
 
   const onSubmitHandler = (data: any) => {
     setLoading(true);
     try {
-      setOrderdetails({ ShipmentData: data });
-      getShiperRates({ ...orderdetail, ShipmentData: data });
+      setOrderDetails({ ShipmentData: data });
+      getShiperRates({ ...orderDetails, ShipmentData: data });
       setActiveState(4);
     } catch (error) {
       console.log(error);
@@ -63,17 +63,17 @@ export default function ShipmentDetails({
   }, []);
 
   useEffect(() => {
-    if (orderdetail?.ShipmentData) {
+    if (orderDetails?.ShipmentData) {
       ShipmentDataForm.reset({
-        ...ShipmentinfoDefaultValues,
-        ...orderdetail.ShipmentData,
+        ...ShipmentInfoDefaultValues,
+        ...orderDetails.ShipmentData,
         products:
-          orderdetail?.ShipmentData?.products?.length > 0
-            ? orderdetail.ShipmentData.products
-            : ShipmentinfoDefaultValues.products,
+          orderDetails?.ShipmentData?.products?.length > 0
+            ? orderDetails.ShipmentData.products
+            : ShipmentInfoDefaultValues.products,
       });
     }
-  }, [orderdetail]);
+  }, [orderDetails]);
 
   return (
     <View className="px-2 py-3">
