@@ -1,33 +1,33 @@
 import { KeyboardTypeOptions } from "react-native";
 
-interface ShipmentSizeProps {
+type AddressFieldProps = {
   name: string;
   label: string;
   placeholder: string;
   type: string;
-  stxt?: string;
-  keyBoardType?: KeyboardTypeOptions;
   isRequired?: boolean;
-}
+  keyBoardType?: KeyboardTypeOptions;
+};
 
-const ADDRESS_FIELDS: any = [
+const ADDRESS_FIELDS: AddressFieldProps[] = [
   {
     name: "address1",
     label: "Address 1",
     placeholder: "Enter Address 1 ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "address2",
     label: "Address 2",
     placeholder: "Enter Address 2 ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "landMark",
     label: "Landmark",
     placeholder: "Enter Landmark ...",
-    isRequired: false,
     type: "text",
   },
   {
@@ -35,35 +35,38 @@ const ADDRESS_FIELDS: any = [
     label: "City",
     placeholder: "Enter City ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "pinCode",
     label: "Pincode",
     placeholder: "Enter Pincode ...",
     type: "text",
+    isRequired: true,
   },
 ];
 
 export default ADDRESS_FIELDS;
 
-export const BILLING_FIELDS: any = [
+export const BILLING_FIELDS: AddressFieldProps[] = [
   {
     name: "billing_Address1",
     label: "Address 1",
     placeholder: "Enter Address 1 ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "billing_Address2",
     label: "Address 2",
     placeholder: "Enter Address 2 ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "billing_Landmark",
     label: "Landmark",
     placeholder: "Enter Landmark ...",
-    isRequired: true,
     type: "text",
   },
   {
@@ -71,16 +74,27 @@ export const BILLING_FIELDS: any = [
     label: "City",
     placeholder: "Enter City ...",
     type: "text",
+    isRequired: true,
   },
   {
     name: "billing_Pincode",
     label: "Pincode",
     placeholder: "Enter Pincode ...",
     type: "text",
+    isRequired: true,
   },
 ];
 
-export const PERSONAL_DETAILS: any = [
+type PersonalDetailsProps = {
+  name: string;
+  label: string;
+  placeholder: string;
+  type: string;
+  isRequired?: boolean;
+  keyBoardType?: KeyboardTypeOptions;
+};
+
+export const PERSONAL_DETAILS: PersonalDetailsProps[] = [
   {
     name: "fname",
     label: "First Name",
@@ -138,6 +152,16 @@ export const SHIPMENT_DETAILS: any = [
     keyBoardType: "number-pad",
   },
 ];
+
+interface ShipmentSizeProps {
+  name: string;
+  label: string;
+  placeholder: string;
+  type: string;
+  stxt?: string;
+  keyBoardType?: KeyboardTypeOptions;
+  isRequired?: boolean;
+}
 
 export const SHIPMENT_SIZE: ShipmentSizeProps[] = [
   {

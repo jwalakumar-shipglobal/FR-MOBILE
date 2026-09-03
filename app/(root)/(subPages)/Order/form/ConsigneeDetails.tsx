@@ -231,7 +231,7 @@ export default function ConsigneeDetails({
                 renderItem={({ item }) => (
                   <BasicInput
                     placeholder={item.placeholder}
-                    required
+                    required={item.isRequired}
                     label={item.label}
                     name={item.name}
                     form={personalDataForm}
